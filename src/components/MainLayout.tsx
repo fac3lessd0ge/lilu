@@ -6,7 +6,7 @@ import { Header } from './Header/Header';
 
 
 const MainContentWrapper = styled.div`
-  min-height: calc(100vh - 130px);
+  min-height: calc(100vh - 110px);
   max-width: 100vw;
   padding: 10px 20px;
   text-overflow: ellipsis;

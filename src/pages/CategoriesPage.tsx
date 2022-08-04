@@ -14,6 +14,11 @@ const TestCard = styled.div`
   border-radius: 10px;
 `;
 
+const StyledCardTitle = styled.h2`
+  width: 100%;
+  text-align: center;
+`;
+
 export const CategoriesPage: React.FC = () => {
   const [sdata, setsData] = React.useState<any>(null);
   const [play, setPlay] = React.useState(false);
@@ -21,7 +26,7 @@ export const CategoriesPage: React.FC = () => {
   React.useEffect(() => {
     axios.get(process.env.REACT_APP_BASE_URL + '/categories')
       .then(({ data }) => {
-        setsData(data[0].animation);
+        setsData(data);
         console.log(data);
         
       })
@@ -31,16 +36,15 @@ export const CategoriesPage: React.FC = () => {
   return (
 		<>
 			<CardsGrid>
-				{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((elem) => (
-					<TestCard key={elem}>
+				{sdata?.map((elem: any) => (
+					<TestCard key={elem.id}>
 						<Lottie
-              speed={0.5}
-              onLoopComplete={() => setPlay(false)}
-              onClick={() => setPlay(() => !play)}
-							animationData={sdata}
-							play={play}
-							style={{ width: 64, height: 64 }}
+              loop
+							animationData={elem.animation}
+							play
+							style={{ width: '100%', maxHeight: 150, height: 150 }}
 						/>
+            <StyledCardTitle>{elem.title}</StyledCardTitle>
 					</TestCard>
 				))}
 			</CardsGrid>
