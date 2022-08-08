@@ -10,7 +10,7 @@ interface NavButtonProps {
   children: React.ReactNode;
 }
 
-const StyledNavButton = styled.div`
+const StyledNavButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -19,7 +19,9 @@ const StyledNavButton = styled.div`
   box-shadow: 1px 1px 1px grey;
   border-radius: 5px;
   padding: 4px 5px;
-  transition: all 0.03s ease-in;
+  transition: all 0.03s linear;
+  outline: none;
+  border: none;
 
   &:active {
     box-shadow: none;
