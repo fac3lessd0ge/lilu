@@ -20,8 +20,8 @@ export const ItemsPage : React.FC = () => {
   return (
     <>
       <CardsGrid>
-				{items?.map((elem: any) => (
-					<Card
+        {items?.map((elem: any) => (
+          <Card
             id={elem.id}
             title={elem.title}
             animation={elem?.animation}
@@ -30,8 +30,8 @@ export const ItemsPage : React.FC = () => {
             href={`/item/${elem.id}`}
             price={elem.price}
           />
-				))}
-			</CardsGrid>
+        ))}
+      </CardsGrid>
     </>
   )
 }

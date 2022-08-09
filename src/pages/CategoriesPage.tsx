@@ -15,18 +15,18 @@ export const CategoriesPage: React.FC = () => {
   }, [])
 
   return (
-		<>
-			<CardsGrid>
-				{sdata?.map((elem: any) => (
-					<Card
+    <>
+      <CardsGrid>
+        {sdata?.map((elem: any) => (
+          <Card
             id={elem.id}
             title={elem.title}
             animation={elem.animation}
             key={elem.id}
             href={`/category/${elem.id}`}
           />
-				))}
-			</CardsGrid>
-		</>
+        ))}
+      </CardsGrid>
+    </>
   );
 }

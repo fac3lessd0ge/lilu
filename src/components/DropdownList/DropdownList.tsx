@@ -61,21 +61,21 @@ export const DropDownList : React.FC<IDropDownList> = ({ variants, onSelect }) =
   const variantRef = React.useRef<HTMLDivElement | null>(null)
 
   React.useEffect(() => {
-		const handler = (e: Event) => {
-			if (
-				variantRef.current &&
-				!e.composedPath().includes(variantRef.current)
-			) {
-				setPopupVisible(false);
-			}
-		};
+    const handler = (e: Event) => {
+      if (
+        variantRef.current &&
+        !e.composedPath().includes(variantRef.current)
+      ) {
+        setPopupVisible(false);
+      }
+    };
 
-		document.body.addEventListener('click', handler);
+    document.body.addEventListener('click', handler);
 
-		return () => {
-			document.body.removeEventListener('click', handler);
-		};
-	}, []);
+    return () => {
+      document.body.removeEventListener('click', handler);
+    };
+  }, []);
 
   return (
     <ListContainer ref={variantRef}>
