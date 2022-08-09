@@ -24,10 +24,11 @@ const StyledCard = styled.div`
   height: 100%;
   width: 100%;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const StyledCardImage = styled.img`
-  max-height: 100px;
+  max-height: 140px;
   width: 100%;
   padding: 5px;
   border-radius: 10px;
@@ -37,8 +38,9 @@ const StyledCardImage = styled.img`
 
 const StyledCardTitle = styled.h3`
   width: 100%;
-  text-align: left;
+  text-align: center;
   margin-top: 0;
+  font-size: 16px;
   margin-bottom: 10px;
   padding: 0px 5px;
 `;
@@ -73,7 +75,7 @@ export const Card: React.FC<ICard> = ({ children, animation, title, id, price, h
         src={imgUrl}
       />}
       
-      <StyledCardTitle>{title}</StyledCardTitle>
+      <StyledCardTitle>{title.length > 35 ? title.slice(0, 34) + '...' : title}</StyledCardTitle>
       
       {price && <StyledCardPrice>
         {price}

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { GrCatalog } from 'react-icons/gr';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import { useDelayedNavigation } from '../../hooks/useDelayedNavigation';
 
 interface NavButtonProps {

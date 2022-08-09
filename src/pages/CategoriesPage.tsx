@@ -11,8 +11,6 @@ export const CategoriesPage: React.FC = () => {
     axios.get(process.env.REACT_APP_BASE_URL + '/categories')
       .then(({ data }) => {
         setsData(data);
-        console.log(data);
-        
       })
   }, [])
 
