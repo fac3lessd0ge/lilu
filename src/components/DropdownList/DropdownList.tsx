@@ -38,6 +38,7 @@ const ChosenText = styled.span`
 const StyledListItem = styled.li`
   line-height: 2;
   border-radius: 2.5px;
+  font-weight: 700;
 
   &:hover {
     background-color: #ccca;
