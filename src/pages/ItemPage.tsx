@@ -104,7 +104,6 @@ export const ItemPage: React.FC = () => {
   React.useEffect(() => {
     const fetchItemInfo = async () => {
       const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/item/${id}`)
-      console.log(data);
       SetItemInfo(data);
     }
     fetchItemInfo();

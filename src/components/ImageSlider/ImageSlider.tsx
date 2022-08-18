@@ -48,14 +48,12 @@ export const ImageSlider : React.FC<ISliderList> = ({ images }) => {
   const SliderRef = React.useRef<any>(null);
 
   React.useEffect(() => {
-    console.log(SliderRef.current);
-    
     SliderRef.current?.goTo(0)
   }, [images])
 
   return (
-		<SliderContainer>
-			<Slide
+    <SliderContainer>
+      <Slide
         ref={SliderRef}
         defaultIndex={0}
         prevArrow={<StyledArrowButton left> <GrFormPreviousLink size={25} /> </StyledArrowButton>}
@@ -63,16 +61,15 @@ export const ImageSlider : React.FC<ISliderList> = ({ images }) => {
         autoplay={false}
         canSwipe={false}
         duration={100}
-        onChange={(oldIndex, newIndex) => console.log(`${oldIndex} ${newIndex}`)}
         easing='ease-in'
         transitionDuration={300}
       >
-				{images?.map((slideImage, index) => (
-					<div className="each-slide" key={index}>
+        {images?.map((slideImage, index) => (
+          <div className="each-slide" key={index}>
             <StyledImageDiv src={slideImage} />
-					</div>
-				))}
-			</Slide>
-		</SliderContainer>
+          </div>
+        ))}
+      </Slide>
+    </SliderContainer>
   );
 }
