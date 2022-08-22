@@ -13,7 +13,7 @@ interface ICard {
   imgUrl?: string
 }
 
-const StyledCard = styled.div`
+export const StyledCard = styled.div`
   background-color: #EDE1ED;
   min-height: 200px;
   display: flex;
@@ -25,6 +25,7 @@ const StyledCard = styled.div`
   width: 100%;
   border-radius: 10px;
   cursor: pointer;
+  position: relative;
 `;
 
 const StyledCardImage = styled.img`

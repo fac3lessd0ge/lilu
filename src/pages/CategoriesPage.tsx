@@ -2,6 +2,7 @@ import * as React from 'react';
 import { CardsGrid } from '../components/CardsGrid/CardsGrid';
 import { Card } from '../components/Card/Card';
 import { useGetCategoriesQuery } from '../redux/api/category';
+import { SkeletonCard } from '../components/Skeletons/SkeletonCard';
 
 
 export const CategoriesPage: React.FC = () => {
@@ -10,6 +11,8 @@ export const CategoriesPage: React.FC = () => {
   return (
     <>
       <CardsGrid>
+        {isLoading && [1, 2, 3].map(elem => <SkeletonCard />)}
+        
         {!isLoading && data?.map((elem: any) => (
           <Card
             id={elem.id}
