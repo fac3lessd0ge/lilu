@@ -16,7 +16,10 @@ const StyledVariantsList = styled.ul`
 const ListThumbnail = styled.span`
   font-size: 16px;
   padding: 10px 0px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 
   &:hover {
     span {
@@ -27,12 +30,16 @@ const ListThumbnail = styled.span`
 
 const ChosenText = styled.span`
   font-weight: 700;
-  background-color: #ccca;
+  background-color: #eee;
   border-radius: 10px;
   padding: 2px 10px;
   border: 2px solid white;
-
   transition: border 0.1s ease-in;
+
+  &::after {
+    content: ' \u25bc';
+    font-size: 14px;
+  }
 `;
 
 const StyledListItem = styled.li`
