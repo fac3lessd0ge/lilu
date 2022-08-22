@@ -11,7 +11,7 @@ const StyledHeader = styled.header`
   text-align: center;
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: 15;
 `;
 
 export const Header: React.FC = () => {
