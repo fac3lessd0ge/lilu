@@ -1,26 +1,17 @@
-import axios from 'axios';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { Card } from '../components/Card/Card';
 import { CardsGrid } from '../components/CardsGrid/CardsGrid';
+import { useGetItemsQuery } from '../redux/api/items';
 
 export const ItemsPage : React.FC = () => {
   const { id } = useParams();
-  const [items, setItems] = React.useState<any[] | null>(null)
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/items/${id}`);
-      return data;
-    }
-
-    fetchData().then(data => setItems(data.items));
-  }, [])
+  const { data, isLoading } = useGetItemsQuery(id || '');
   
   return (
     <>
       <CardsGrid>
-        {items?.map((elem: any) => (
+        {!isLoading && data?.items?.map((elem: any) => (
           <Card
             id={elem.id}
             title={elem.title}

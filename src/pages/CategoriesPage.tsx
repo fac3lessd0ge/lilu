@@ -1,23 +1,16 @@
 import * as React from 'react';
 import { CardsGrid } from '../components/CardsGrid/CardsGrid';
-import axios from 'axios';
 import { Card } from '../components/Card/Card';
+import { useGetCategoriesQuery } from '../redux/api/category';
 
 
 export const CategoriesPage: React.FC = () => {
-  const [sdata, setsData] = React.useState<any>(null);
-
-  React.useEffect(() => {
-    axios.get(process.env.REACT_APP_BASE_URL + '/categories')
-      .then(({ data }) => {
-        setsData(data);
-      })
-  }, [])
+  const {data, isLoading} = useGetCategoriesQuery();
 
   return (
     <>
       <CardsGrid>
-        {sdata?.map((elem: any) => (
+        {!isLoading && data?.map((elem: any) => (
           <Card
             id={elem.id}
             title={elem.title}
