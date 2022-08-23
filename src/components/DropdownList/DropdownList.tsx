@@ -15,7 +15,6 @@ const StyledVariantsList = styled.ul`
 
 const ListThumbnail = styled.span`
   font-size: 16px;
-  padding: 10px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
