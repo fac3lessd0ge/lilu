@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Link, Outlet } from 'react-router-dom';
 import { Header } from './Header/Header';
+import { Footer } from './Footer/Footer';
 
 
 
@@ -13,17 +14,7 @@ const MainContentWrapper = styled.div`
   overflow: hidden;
 `;
 
-const StyledFooter = styled.footer`
-  height: 60px;
-  background-color: var(--footerColor);
-  position: sticky;
-  bottom: 0;
-  color: white;
-  text-align: center;
-  text-transform: capitalize;
-  display: grid;
-  place-items: center;
-`;
+
 
 export const MainLayout: React.FC = () => {
   return (
@@ -32,9 +23,7 @@ export const MainLayout: React.FC = () => {
       <MainContentWrapper>
         <Outlet />
       </MainContentWrapper>
-      <StyledFooter>
-        В Корзину
-      </StyledFooter>
+      <Footer />
     </>
   )
 };
