@@ -9,7 +9,7 @@ import { Footer } from './Footer/Footer';
 const MainContentWrapper = styled.div`
   min-height: calc(100vh - 110px);
   max-width: 100vw;
-  padding: 10px 20px;
+  padding: 10px 15px;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
