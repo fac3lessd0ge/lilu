@@ -21,6 +21,8 @@ const StyledNavButton = styled.button`
   transition: all 0.03s linear;
   outline: none;
   border: none;
+  font-size: 14px;
+  font-weight: 700;
 
   &:active {
     box-shadow: none;
@@ -40,8 +42,8 @@ export const NavButton: React.FC<NavButtonProps> = ({ type, children }) => {
 
   return (
     <StyledNavButton onClick={clickHandler}>
-      {type === 'back' && <IoIosArrowBack size={16}/>}
-      {type === 'menu' && <GrCatalog size={16}/>}
+      {type === 'back' && <IoIosArrowBack size={18}/>}
+      {type === 'menu' && <GrCatalog size={18}/>}
       {children}
     </StyledNavButton>
   )

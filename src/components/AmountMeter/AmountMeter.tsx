@@ -1,17 +1,21 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const AmountWrapper = styled.div`
+interface IAmountMeterWrapper {
+  height: string,
+  fontSize: string 
+}
+
+const AmountWrapper = styled.div<IAmountMeterWrapper>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 5px;
   width: 100%;
   margin: 0 auto;
-  height: 40px;
+  height: ${({ height }) => height || '40px'};
   max-width: 400px;
   font-weight: 700;
-  font-size: 26px;
-
+  font-size: ${({ fontSize }) => fontSize};
 `;
 
 const AmountButton = styled.button`
@@ -30,23 +34,29 @@ const AmountButton = styled.button`
 `;
 
 const AmountSpan = styled.span`
-  display: flex;
-  justify-content: center;
   gap: 3px;
-  align-items: center;
-  
   &::after {
     content: ' шт.';
-    font-size: 20px;
+    font-size: 60%;
   }
+  `;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
 `;
 
 interface IAmountMeter {
-  onChange: React.Dispatch<React.SetStateAction<number>>
+  onChange: React.Dispatch<React.SetStateAction<number>>,
+  height?: string;
+  initValue?: number,
+  fontSize?: string
 } 
 
-export const AmountMeter : React.FC<IAmountMeter> = ({ onChange }) => {
-  const [value, setValue] = React.useState(0); 
+export const AmountMeter : React.FC<IAmountMeter> = ({ onChange, height = '40px', initValue = 0, fontSize = '26px' }) => {
+  const [value, setValue] = React.useState(initValue); 
 
   const plusClickHandler = () => {
     setValue(() => value + 1)
@@ -63,9 +73,11 @@ export const AmountMeter : React.FC<IAmountMeter> = ({ onChange }) => {
   }, [value, onChange])
 
   return (
-    <AmountWrapper>
+    <AmountWrapper fontSize={fontSize} height={height}>
       <AmountButton onClick={minusClickHandler}>-</AmountButton>
-      <AmountSpan>{value}</AmountSpan>
+      <Center>
+        <AmountSpan>{value}</AmountSpan>
+      </Center>
       <AmountButton onClick={plusClickHandler}>+</AmountButton>
     </AmountWrapper>
   )

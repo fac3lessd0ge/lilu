@@ -19,7 +19,7 @@ export const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 140px;
+  min-width: 120px;
   max-width: 200px;
   height: 100%;
   width: 100%;
