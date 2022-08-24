@@ -4,18 +4,18 @@ export interface Item {
   id: number,
   title: string,
   image: string,
-  description: string,
-  price: number
+  price: number,
+  description?: string
 }
 
-interface ItemsResponce {
+interface ItemsResponse {
   id: number,
   items: Item[]
 }
 
 const itemsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getItems: builder.query<ItemsResponce, string>({
+    getItems: builder.query<ItemsResponse, string>({
       query: (id) => `items/${id}`,
     }),
   }),
