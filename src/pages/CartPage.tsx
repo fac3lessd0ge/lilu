@@ -1,15 +1,17 @@
 import * as React from 'react';
 import Lottie from 'react-lottie-player';
 import styled from 'styled-components';
-import * as EmptyAnimation from '../assets/empty.json';
 import { StyledBlock } from '../components/Block/Block';
 import { CartItem } from '../components/CartItem/CartItem';
+import { DropDownList } from '../components/DropdownList/DropdownList';
 import { CartItemsResponse, useGetCartItemsQuery } from '../redux/api/cart';
+import * as EmptyAnimation from '../assets/empty.json';
 
-const CartPageWrapper = styled.div`
+export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 5px;
   min-height: calc(100vh - 130px);
 `;
 
@@ -33,18 +35,18 @@ const CartItemsBlock = styled(StyledBlock)`
 `;
 
 export const CartPage : React.FC = () => {
-  const { data, isLoading, refetch } = useGetCartItemsQuery('1');
+  const { data, isLoading } = useGetCartItemsQuery('1');
 
   const isCartEmpty = (data: CartItemsResponse | undefined): boolean => {
     return !data?.items?.length
   }
  
   return (
-		<CartPageWrapper>
-
+		<PageWrapper>
 			{!isLoading && !isCartEmpty(data) && 
         <CartItemsBlock>
-          {data?.items?.map(elem => <CartItem {...elem}/>)}
+          {data?.items?.map((elem, id) => <CartItem {...elem} key={id}/>)}
+          <DropDownList additionalThumbnailString=' доставки' variants={['жыж', 'сись', 'сус']}/>
         </CartItemsBlock>
       }
 
@@ -61,8 +63,6 @@ export const CartPage : React.FC = () => {
           </EmptyWrapper>
         </Center>
       }
-			
-
-		</CartPageWrapper>
+		</PageWrapper>
   );
 }

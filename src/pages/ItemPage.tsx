@@ -51,12 +51,18 @@ const BuyButton = styled.button`
   font-weight: 700;
   height: 40px;
   font-size: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.05s ease;
+
+  &:active {
+    transform: translateY(4px);
+  }
 `;
 
 export const ItemPage: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetItemQuery(id || '');
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState(100);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   return (
@@ -65,7 +71,11 @@ export const ItemPage: React.FC = () => {
         <ImageSlider images={data?.images[selectedIndex].urls}/>
         <ItemTitle>{data?.title}</ItemTitle>
         <DropDownWrapper>
-          <DropDownList onSelect={setSelectedIndex} variants={ data?.images.map((elem) => elem.name) || [''] }/>
+          <DropDownList 
+            onSelect={setSelectedIndex} 
+            variants={ data?.images.map((elem) => elem.name) || [''] }
+            additionalThumbnailString={' товара'}
+          />
           <ItemsPrice>{data?.price}</ItemsPrice>
         </DropDownWrapper>
         <AmountMeter onChange={setAmount}/>

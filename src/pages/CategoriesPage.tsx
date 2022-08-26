@@ -11,9 +11,9 @@ export const CategoriesPage: React.FC = () => {
   return (
     <>
       <CardsGrid>
-        {isLoading && [1, 2, 3].map(elem => <SkeletonCard />)}
+        {isLoading && [1, 2, 3].map((elem, id) => <SkeletonCard key={id} />)}
         
-        {!isLoading && data?.map((elem: any) => (
+        {!isLoading && data?.map((elem: any, id) => (
           <Card
             id={elem.id}
             title={elem.title}
