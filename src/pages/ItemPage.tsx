@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 import { DropDownList } from '../components/DropdownList/DropdownList';
-import 'react-slideshow-image/dist/styles.css';
 import { ImageSlider } from '../components/ImageSlider/ImageSlider';
 import { useGetItemQuery } from '../redux/api/item';
 import { AmountMeter } from '../components/AmountMeter/AmountMeter';
+import 'react-slideshow-image/dist/styles.css';
 
 const ItemPageFlexBox = styled.div`
   width: 100%;

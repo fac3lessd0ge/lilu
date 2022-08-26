@@ -71,9 +71,7 @@ export const Footer : React.FC = () => {
     
     case '/order':
       return (
-        <StyledFooter visible={true} onClick={console.log}>
-          Купить говно
-        </StyledFooter>
+        <StyledFooter visible={false} onClick={console.log} />
       )
     default:
       return (

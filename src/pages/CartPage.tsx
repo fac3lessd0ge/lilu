@@ -3,7 +3,6 @@ import Lottie from 'react-lottie-player';
 import styled from 'styled-components';
 import { StyledBlock } from '../components/Block/Block';
 import { CartItem } from '../components/CartItem/CartItem';
-import { DropDownList } from '../components/DropdownList/DropdownList';
 import { CartItemsResponse, useGetCartItemsQuery } from '../redux/api/cart';
 import * as EmptyAnimation from '../assets/empty.json';
 
@@ -46,7 +45,6 @@ export const CartPage : React.FC = () => {
 			{!isLoading && !isCartEmpty(data) && 
         <CartItemsBlock>
           {data?.items?.map((elem, id) => <CartItem {...elem} key={id}/>)}
-          <DropDownList additionalThumbnailString=' доставки' variants={['жыж', 'сись', 'сус']}/>
         </CartItemsBlock>
       }
 

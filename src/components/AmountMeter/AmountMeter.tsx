@@ -29,9 +29,9 @@ const AmountButton = styled.button`
   background-color: #fff;
   font-weight: 700;
   font-size: 26px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.05s ease;
   border: 2px solid #ccc3;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
   &:active {
     transform: translateY(4px);

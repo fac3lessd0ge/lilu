@@ -13,7 +13,8 @@ const root = ReactDOM.createRoot(
 const GlobalStyles = createGlobalStyle`
   :root {
     --headerColor: #E8DFAB;
-    --footerColor: #99CC84;
+    --footerColor: #7bc25e;
+    --buttonColor: #60be3b;
   }
 
   * {
