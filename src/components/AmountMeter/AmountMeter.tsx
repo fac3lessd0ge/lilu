@@ -1,5 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { TiPlus, TiMinus } from 'react-icons/ti';
+import { useUpdateEffect } from '../../hooks/useUpdateEffect';
+
 
 interface IAmountMeterWrapper {
   height: string,
@@ -23,13 +26,17 @@ const AmountButton = styled.button`
   place-items: center;
   border: none;
   border-radius: 5px;
-  background-color: #eee;
+  background-color: #fff;
   font-weight: 700;
   font-size: 26px;
-  transition: transform 0.05s ease-in;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.05s ease;
+  border: 2px solid #ccc3;
 
   &:active {
     transform: translateY(4px);
+    box-shadow: none;
+    border: 2px solid rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -49,7 +56,7 @@ const Center = styled.div`
 `;
 
 interface IAmountMeter {
-  onChange: React.Dispatch<React.SetStateAction<number>>,
+  onChange: React.Dispatch<React.SetStateAction<number>> | Function,
   height?: string;
   initValue?: number,
   fontSize?: string
@@ -68,17 +75,17 @@ export const AmountMeter : React.FC<IAmountMeter> = ({ onChange, height = '40px'
     }
   }
 
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     onChange(value);
   }, [value, onChange])
 
   return (
     <AmountWrapper fontSize={fontSize} height={height}>
-      <AmountButton onClick={minusClickHandler}>-</AmountButton>
+      <AmountButton onClick={minusClickHandler}><TiMinus size={22} /></AmountButton>
       <Center>
         <AmountSpan>{value}</AmountSpan>
       </Center>
-      <AmountButton onClick={plusClickHandler}>+</AmountButton>
+      <AmountButton onClick={plusClickHandler}><TiPlus size={24} /></AmountButton>
     </AmountWrapper>
   )
 }
