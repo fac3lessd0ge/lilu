@@ -21,6 +21,12 @@ const StyledFooter = styled.footer<FooterProps>`
   align-items: center;
   
   visibility: ${({ visible }) => visible ? 'visible' : 'hidden'};
+  transition: all 0.1s ease;
+
+  &:active {
+    transform: scale(0.97);
+    border-radius: 5px;
+  }
 `;
 
 const ItemCount = styled.div`
@@ -39,7 +45,7 @@ const ItemCount = styled.div`
 
 export const Footer : React.FC = () => {
   const location = useLocation();
-  const navigate = useDelayedNavigation(0);
+  const navigate = useDelayedNavigation(100);
   const { data } = useGetCartItemsQuery('1');
 
   const allAmounts = React.useCallback((): number => {
@@ -54,17 +60,26 @@ export const Footer : React.FC = () => {
     return data?.items?.reduce((prev, cur) =>  prev + cur.amount * cur.price, 0)
   }, [data])
 
-  if (location.pathname !== '/cart') {
-    return (
-      <StyledFooter visible={true} onClick={() => navigate('/cart')}>
-        В Корзину <ItemCount>{allAmounts()}</ItemCount>
-      </StyledFooter>
-    )
-  }
 
-  return (
-    <StyledFooter visible={!!data?.items?.length} onClick={() => navigate('/cart')}>
-      Оформить заказ на {calculateTotalPrice()} руб.
-    </StyledFooter>
-  )
+  switch (location.pathname) {
+    case '/cart':
+      return (
+        <StyledFooter visible={!!data?.items?.length} onClick={() => navigate('/order')}>
+          Оформить заказ на {calculateTotalPrice()} руб.
+        </StyledFooter>
+      )
+    
+    case '/order':
+      return (
+        <StyledFooter visible={true} onClick={console.log}>
+          Купить говно
+        </StyledFooter>
+      )
+    default:
+      return (
+        <StyledFooter visible={true} onClick={() => navigate('/cart')}>
+          В Корзину <ItemCount>{allAmounts()}</ItemCount>
+        </StyledFooter>
+      )
+  }
 }

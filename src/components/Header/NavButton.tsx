@@ -15,18 +15,18 @@ const StyledNavButton = styled.button`
   justify-content: space-between;
   gap: 5px;
   background-color: #EEE297;
-  box-shadow: 1px 1px 1px grey;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ccc3;
   border-radius: 5px;
   padding: 4px 5px;
   transition: all 0.03s linear;
   outline: none;
-  border: none;
   font-size: 14px;
   font-weight: 700;
 
   &:active {
     box-shadow: none;
-    transform: translateY(3px);
+    transform: translateY(2px);
   }
 `;
 

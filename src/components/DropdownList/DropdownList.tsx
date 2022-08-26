@@ -59,10 +59,17 @@ const ListContainer = styled.div`
 
 interface IDropDownList {
   variants: string[],
-  onSelect?: React.Dispatch<React.SetStateAction<number>>
+  additionalThumbnailString?: string
+  onSelect?: React.Dispatch<React.SetStateAction<number>> | Function
 }
 
-export const DropDownList : React.FC<IDropDownList> = ({ variants, onSelect }) => {
+export const DropDownList : React.FC<IDropDownList> = (
+    {
+      variants, 
+      onSelect,
+      additionalThumbnailString
+    }
+  ) => {
   const [selected, setSelected] = React.useState(0);
   const [popupVisible, setPopupVisible] = React.useState<boolean>(false);
   const variantRef = React.useRef<HTMLDivElement | null>(null)
@@ -89,7 +96,7 @@ export const DropDownList : React.FC<IDropDownList> = ({ variants, onSelect }) =
       <ListThumbnail
         onClick={() => setPopupVisible(true)}
       >
-        Выбор типа: <ChosenText>{variants[selected]}</ChosenText>
+        Выбор типа {additionalThumbnailString}: <ChosenText>{variants[selected]}</ChosenText>
       </ListThumbnail>
       {popupVisible && <StyledVariantsList>
         {variants.map((elem, id) => {
