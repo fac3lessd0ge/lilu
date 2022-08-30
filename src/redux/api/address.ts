@@ -65,7 +65,7 @@ export const addressApi = createApi({
       query: (address) => ({
         url: '/address',
         method: 'post',
-        body: { query: 'г Москва ' + address }
+        body: { query: address, count: 5 }
       }),
       transformResponse: (response:  { suggestions: Suggestion[] } , meta, arg) => {
         console.dir(response)
