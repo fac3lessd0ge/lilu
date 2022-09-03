@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { addressApi } from './api/address';
 import { api } from './api/api';
-import userSlice from './slices/userSlice'
+import userSlice from './slices/userSlice';
+import orderInfoSlice from './slices/orderInfoSlice';
 
 
 export const store = configureStore({
   reducer: {
     userSlice,
+    orderInfoSlice,
     [api.reducerPath]: api.reducer,
     [addressApi.reducerPath]: addressApi.reducer
   },

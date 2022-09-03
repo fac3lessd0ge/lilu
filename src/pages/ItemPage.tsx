@@ -41,7 +41,7 @@ const DropDownWrapper = styled.div`
   flex-direction: column;
 `;
 
-const BuyButton = styled.button`
+export const BuyButton = styled.button`
   display: grid;
   place-items: center;
   border: none;

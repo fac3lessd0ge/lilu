@@ -3,22 +3,34 @@ import { useForm, FieldError } from 'react-hook-form';
 import { useGetSuggestedAddressesMutation } from '../../redux/api/address';
 import * as Utils from './utils';
 import * as S from './FormsStyles';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { selectOrderInfo } from '../../redux/selectors';
+import { setAddress, setEmail, setFormIsValid, setName, setTelephone } from '../../redux/slices/orderInfoSlice';
 
 
 export const PostVariant = () => {
   const [ getSuggestions, { data }] = useGetSuggestedAddressesMutation()
-  const [suggestionsList, setSuggestionsList] = React.useState<any | null>(null);
+  const [suggestionsList, setSuggestionsList] = React.useState<string[] | null>(null);
   
+  const { email, telephone, address, name } = useAppSelector(selectOrderInfo);
+  const dispatch = useAppDispatch();
+
   const { 
           register,
           setValue,
-          handleSubmit, 
+          handleSubmit,
           formState: {
             errors,
-            isValid 
+            isValid, 
           } 
         } = useForm({
-    mode: 'onBlur'
+    mode: 'onChange',
+    defaultValues: {
+      email,
+      telephone,
+      address, 
+      name
+    }
   });
 
   
@@ -27,6 +39,9 @@ export const PostVariant = () => {
     setSuggestionsList(data?.map((elem: any, id: number) => elem.value))
   }, [data]);
 
+  React.useEffect(() => {
+    dispatch(setFormIsValid(isValid))
+  }, [isValid])
 
   const onSubmit =(data: any) => {
     console.log(data)
@@ -35,9 +50,21 @@ export const PostVariant = () => {
   const addressChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 3) getSuggestions(e.target.value)
     else setSuggestionsList(null)
+
+    dispatch(setAddress(e.target.value))
   }
 
+  const nameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setName(e.target.value))
+  }
 
+  const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmail(e.target.value))
+  }
+
+  const telephoneChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setTelephone(e.target.value))
+  }
   
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -45,7 +72,8 @@ export const PostVariant = () => {
       <S.InputWrapper>
         <S.Label>ФИО *</S.Label>
         <S.TextInput placeholder="Введите ваше ФИО" {...register("name", {
-          required: "Поле обязательно к заполнению"
+          required: "Поле обязательно к заполнению",
+          onChange: nameChangeHandler
         })} 
         />
         <div>{errors?.name && (<S.ErrorMessage>{errors?.name?.message as FieldError["message"]}</S.ErrorMessage>)}</div>
@@ -59,9 +87,12 @@ export const PostVariant = () => {
         })} 
         />
         {!!suggestionsList &&  <S.SuggestionsList>{suggestionsList.map(
-            (elem: string, id: number) => 
+            (elem: string) => 
               <S.Suggestion
-                onClick={(e) => {setValue('address', elem); setSuggestionsList(null)}}
+                key={elem} onClick={(e) => {
+                  setValue('address', elem); 
+                  setSuggestionsList(null); 
+                  dispatch(setAddress(elem))}}
               >{elem}</S.Suggestion>
           )}
         </S.SuggestionsList>}
@@ -72,8 +103,10 @@ export const PostVariant = () => {
         <S.Label>Номер телефона *</S.Label>
         <S.TelephoneInputMask 
           placeholder='Введите ваш номер телефона'
-          mask="+7 (999) 999-99-99" 
+          mask="+7 (999) 999-99-99"
+          value={telephone}
           {...register('telephone', {
+            onChange: telephoneChangeHandler,
             required: "Поле обязательно к заполнению",
             pattern: { value: Utils.phonePattern, message: "Введите корректный номер телефона"}
           })}
@@ -85,13 +118,12 @@ export const PostVariant = () => {
         <S.Label>Электронная почта *</S.Label>
         <S.TextInput placeholder="Введите вашу почту" {...register("email", {
           required: "Поле обязательно к заполнению",
+          onChange: emailChangeHandler,
           pattern: {value: Utils.emailPattern, message: 'Введите корректный e-mail'}
         })} 
         />
         <div>{errors?.email && (<S.ErrorMessage>{errors?.email?.message as FieldError["message"]}</S.ErrorMessage>)}</div>
       </S.InputWrapper>
-
-      <S.SubmitButton disabled={!isValid} />
     </S.Form>
   )
 }

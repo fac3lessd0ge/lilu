@@ -68,7 +68,6 @@ export const addressApi = createApi({
         body: { query: address, count: 5 }
       }),
       transformResponse: (response:  { suggestions: Suggestion[] } , meta, arg) => {
-        console.dir(response)
         return response.suggestions
       }
     }),
