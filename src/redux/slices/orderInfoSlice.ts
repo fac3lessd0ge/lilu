@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface IOrderState {
+export interface IOrderState {
   shippingVariant: string
   telephone: string 
   email:     string,
@@ -8,6 +8,8 @@ interface IOrderState {
 
   name?:     string,
   address?:  string,
+
+  pickupLocation?: string
 }
 
 const initialState: IOrderState = {
@@ -16,7 +18,8 @@ const initialState: IOrderState = {
   name: '',
   address: '',
   shippingVariant: 'Самовывоз из магазина',
-  formIsValid: false
+  formIsValid: false,
+  pickupLocation: ''
 }
 
 export const OrderInfoSlice = createSlice({
@@ -40,6 +43,9 @@ export const OrderInfoSlice = createSlice({
     },
     setFormIsValid (state, action: PayloadAction<boolean>) {
       state.formIsValid = action.payload
+    },
+    setPickupLocation (state, action: PayloadAction<string>) {
+      state.pickupLocation = action.payload
     }
   }
 })
@@ -50,7 +56,8 @@ export const {
   setName, 
   setAddress, 
   setShippingVariant, 
-  setFormIsValid 
+  setFormIsValid,
+  setPickupLocation
 } = OrderInfoSlice.actions
 
 export default OrderInfoSlice.reducer

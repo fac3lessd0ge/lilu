@@ -62,8 +62,16 @@ export const BuyButton = styled.button`
 export const ItemPage: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetItemQuery(id || '');
-  const [amount, setAmount] = React.useState(100);
+  const [amount, setAmount] = React.useState(0);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const buyHandler = () => {
+    console.log({
+      method: 'add',
+      amount,
+      product_id: id
+    })
+  }
 
   return (
     <ItemPageFlexBox>
@@ -79,7 +87,7 @@ export const ItemPage: React.FC = () => {
           <ItemsPrice>{data?.price}</ItemsPrice>
         </DropDownWrapper>
         <AmountMeter onChange={setAmount}/>
-        <BuyButton>Добавить в корзину</BuyButton>
+        <BuyButton onClick={buyHandler}>Добавить в корзину</BuyButton>
         {data?.description}
       </>}
     </ItemPageFlexBox>

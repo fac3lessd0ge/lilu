@@ -4,12 +4,8 @@ import { Block } from '../components/Block/Block';
 import { DeliveryForms } from '../components/Forms/DeliveryForms';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectOrderInfo } from '../redux/selectors';
-import { setShippingVariant } from '../redux/slices/orderInfoSlice';
+import { setPickupLocation, setShippingVariant } from '../redux/slices/orderInfoSlice';
 import { PageWrapper } from './CartPage';
-import { ReactComponent as SBPLogo } from '../assets/SBP_Logo.svg';
-import { ReactComponent as VisaLogo } from '../assets/Visa_Logo.svg';
-import { ReactComponent as MasterCardLogo } from '../assets/Mastercard_Logo.svg';
-import { ReactComponent as MirLogo } from '../assets/Mir_Logo.svg';
 import { BuyButton } from './ItemPage';
 
 const StyledOrderPageTitle = styled.h2`
@@ -59,30 +55,6 @@ const DeliveryFormsWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledCardPaymentVariant = styled(StyledOrderVariant)`
-  justify-content: center;
-`;
-
-const StyledSBPLogo = styled(SBPLogo)`
-  width: 55px;
-  height: 40px;
-`;
-
-const StyledVisaLogo = styled(VisaLogo)`
-  width: 55px;
-  height: 40px;
-`;
-
-const StyledMasterCardLogo = styled(MasterCardLogo)`
-  width: 55px;
-  height: 40px;
-`;
-
-const StyledMirLogo = styled(MirLogo)`
-  width: 70px;
-  height: 40px;
-`;
-
 const SubmitButton = styled(BuyButton)`
   width: 100%;
   background-color: var(--footerColor);
@@ -115,9 +87,40 @@ export const OrderPage: React.FC = () => {
     email,
     name,
     telephone,
+    address,
+    pickupLocation,
     formIsValid
   } = useAppSelector(selectOrderInfo);
   const dispatch = useAppDispatch();
+
+  const isButtonDisabled = (): boolean => {
+    if (shippingVariant === 'Самовывоз из магазина') {
+      console.log(!(formIsValid && !!pickupLocation))
+      return !(formIsValid && !!pickupLocation);
+    }
+    
+    return !formIsValid
+  }
+
+  const submitHandler = () => {
+    if (shippingVariant === 'Самовывоз из магазина') {
+      console.log({
+        telephone,
+        email,
+        shippingVariant,
+        pickupLocation
+      })
+      return
+    }
+
+    console.log({
+      telephone,
+      email,
+      name,
+      address,
+      shippingVariant
+    })
+  }
 
 
   return (
@@ -139,7 +142,7 @@ export const OrderPage: React.FC = () => {
 					{OrderVariants.map((elem) => (
 						<StyledOrderVariant
 							key={elem}
-							onClick={(e) => dispatch(setShippingVariant(elem))}
+							onClick={(e) => {dispatch(setShippingVariant(elem)); dispatch(setPickupLocation(''))}}
 							disabled={shippingVariant === elem}
 						>
 							{elem}
@@ -153,8 +156,8 @@ export const OrderPage: React.FC = () => {
 						{AddressesVariants.map((elem) => (
 							<StyledPickupAddressVariant
 								key={elem}
-								onClick={(e) => {}}
-								disabled={shippingVariant === elem}
+								onClick={(e) => {dispatch(setPickupLocation(elem))}}
+								disabled={pickupLocation === elem}
 							>
 								{elem}
 							</StyledPickupAddressVariant>
@@ -162,26 +165,7 @@ export const OrderPage: React.FC = () => {
 					</StyledOrderPageVariantsWrapper>
 				) : null}
 
-        <StyledOrderPageVariantsWrapper>
-					<h3>Способ оплаты: </h3>
-          <StyledCardPaymentVariant
-            onClick={(e) => {}}
-            disabled={false}
-          >
-            <StyledVisaLogo  viewBox= "0 0 1000 300" />
-            <StyledMasterCardLogo viewBox="0 0 1000 800"/>
-            <StyledMirLogo viewBox="0 0 400 110" />
-            <StyledSBPLogo viewBox= "0 -40 200 200"/>
-          </StyledCardPaymentVariant>
-          <StyledCardPaymentVariant
-            onClick={(e) => {}}
-            disabled={false}
-          >
-            Оплата при доставке
-          </StyledCardPaymentVariant>
-				</StyledOrderPageVariantsWrapper>
-
-        <SubmitButton disabled={!formIsValid}>Продолжить</SubmitButton>
+        <SubmitButton onClick={submitHandler} disabled={isButtonDisabled()}>Продолжить</SubmitButton>
 			</Block>
 		</PageWrapper>
   );
