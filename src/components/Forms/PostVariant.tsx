@@ -6,7 +6,7 @@ import * as S from './FormsStyles';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { selectOrderInfo } from '../../redux/selectors';
 import { setAddress, setEmail, setFormIsValid, setName, setTelephone } from '../../redux/slices/orderInfoSlice';
-import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
+import { useDebouncedEffect } from '../../hooks/useDebouncedEffect';
 
 
 export const PostVariant = () => {
@@ -16,14 +16,14 @@ export const PostVariant = () => {
   const { email, telephone, address, name } = useAppSelector(selectOrderInfo);
   const dispatch = useAppDispatch();
 
-  const debouncedLogger = useDebouncedCallback(() => {
-    console.log({
-      email,
-      telephone,
-      address,
-      name
-    })
-  }, [email, telephone, address, name], 1000)
+  // useDebouncedEffect(() => {
+  //   console.log({
+  //     email,
+  //     telephone,
+  //     address,
+  //     name
+  //   })
+  // }, [email, telephone, address, name], 1000)
 
   const { 
           register,

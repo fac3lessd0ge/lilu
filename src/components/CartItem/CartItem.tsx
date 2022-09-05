@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ICartItem } from '../../redux/api/cart';
 import { AmountMeter } from '../AmountMeter/AmountMeter';
+import { useDebouncedValue } from '../../hooks/useDebouncedValue';
+import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 
 const StyledCartItemWrapper = styled.div`
   padding: 3px;
@@ -58,18 +60,23 @@ const toCapitalizedLowerCase = (str: string, maxLen: number): string => {
 export const CartItem : React.FC<ICartItem> = ({ amount, chosen_variant = 'лаймовый', price, title, id }) => {
   const navigate = useNavigate()
   
+  const [currentAmount, setCurrentAmount] = React.useState(amount);
+  const debouncedAmount = useDebouncedValue(currentAmount, 300)
+
+  const logger = React.useCallback(() => {
+    console.log({
+      debouncedAmount,
+      method: 'set',
+      chosen_variant,
+      id
+    })
+  }, [debouncedAmount, chosen_variant, id])
+
+  useUpdateEffect(logger, [debouncedAmount])
+
   const prepareTitle = React.useCallback((str: string, maxLen: number): string => {
     return toCapitalizedLowerCase(str, maxLen) + (str.length > maxLen ? '...' : '') 
   }, [])
-
-  const mockAPIPost = React.useCallback((amount: number) => {
-    console.dir({
-      amount: amount,
-      chosen_variant,
-      price,
-      title
-    })
-  }, [chosen_variant, price, title])
   
   return (
     <StyledCartItemWrapper>
@@ -79,7 +86,7 @@ export const CartItem : React.FC<ICartItem> = ({ amount, chosen_variant = 'ла�
         <AmountMeter 
           fontSize='20px'
           initValue={amount} 
-          onChange={mockAPIPost}
+          onChange={setCurrentAmount}
         />
       </StyledAmountMeterWrapper>
     

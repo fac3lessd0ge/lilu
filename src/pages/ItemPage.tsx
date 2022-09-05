@@ -5,6 +5,7 @@ import { DropDownList } from '../components/DropdownList/DropdownList';
 import { ImageSlider } from '../components/ImageSlider/ImageSlider';
 import { useGetItemQuery } from '../redux/api/item';
 import { AmountMeter } from '../components/AmountMeter/AmountMeter';
+import { toast } from 'react-toastify';
 import 'react-slideshow-image/dist/styles.css';
 
 const ItemPageFlexBox = styled.div`
@@ -57,6 +58,15 @@ export const BuyButton = styled.button`
   &:active {
     transform: translateY(4px);
   }
+
+  &:disabled {
+    transform: scale(0.7);
+    background-color: #ccc;
+  }
+  
+  &:disabled:active {
+    transform: none;
+  }
 `;
 
 export const ItemPage: React.FC = () => {
@@ -65,12 +75,28 @@ export const ItemPage: React.FC = () => {
   const [amount, setAmount] = React.useState(0);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
+  const BuyButtonRef = React.useRef<HTMLButtonElement>(null)
+
+  
+  const notify = () => toast(`В корзину добавлено ${amount} шт. товара`);
+
   const buyHandler = () => {
     console.log({
       method: 'add',
       amount,
-      product_id: id
+      product_id: id,
+      selectedIndex
     })
+    notify();
+
+    if (BuyButtonRef.current) {
+      BuyButtonRef.current.disabled = true;
+
+      setTimeout(() => {
+        BuyButtonRef.current!.disabled = false
+      }, 2700)
+    }
+
   }
 
   return (
@@ -87,7 +113,7 @@ export const ItemPage: React.FC = () => {
           <ItemsPrice>{data?.price}</ItemsPrice>
         </DropDownWrapper>
         <AmountMeter onChange={setAmount}/>
-        <BuyButton onClick={buyHandler}>Добавить в корзину</BuyButton>
+        <BuyButton ref={BuyButtonRef} onClick={buyHandler}>Добавить в корзину</BuyButton>
         {data?.description}
       </>}
     </ItemPageFlexBox>

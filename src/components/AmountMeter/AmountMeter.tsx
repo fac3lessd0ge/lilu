@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { TiPlus, TiMinus } from 'react-icons/ti';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 
-
 interface IAmountMeterWrapper {
   height: string,
   fontSize: string 
@@ -77,15 +76,19 @@ export const AmountMeter : React.FC<IAmountMeter> = ({ onChange, height = '40px'
 
   useUpdateEffect(() => {
     onChange(value);
-  }, [value, onChange])
+  }, [value])
 
   return (
-    <AmountWrapper fontSize={fontSize} height={height}>
-      <AmountButton onClick={minusClickHandler}><TiMinus size={22} /></AmountButton>
-      <Center>
-        <AmountSpan>{value}</AmountSpan>
-      </Center>
-      <AmountButton onClick={plusClickHandler}><TiPlus size={24} /></AmountButton>
-    </AmountWrapper>
-  )
+		<AmountWrapper fontSize={fontSize} height={height}>
+			<AmountButton onClick={minusClickHandler}>
+				<TiMinus size={22} />
+			</AmountButton>
+			<Center>
+				<AmountSpan>{value}</AmountSpan>
+			</Center>
+			<AmountButton onClick={plusClickHandler}>
+				<TiPlus size={24} />
+			</AmountButton>
+		</AmountWrapper>
+  );
 }
