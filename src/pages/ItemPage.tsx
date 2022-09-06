@@ -51,6 +51,7 @@ export const BuyButton = styled.button`
   color: #eee;
   font-weight: 700;
   height: 40px;
+  cursor: pointer;
   font-size: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.05s ease;
@@ -62,10 +63,7 @@ export const BuyButton = styled.button`
   &:disabled {
     transform: scale(0.7);
     background-color: #ccc;
-  }
-  
-  &:disabled:active {
-    transform: none;
+    cursor: unset;
   }
 `;
 

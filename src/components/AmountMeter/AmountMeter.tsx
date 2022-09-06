@@ -30,6 +30,7 @@ const AmountButton = styled.button`
   font-size: 26px;
   transition: all 0.05s ease;
   border: 2px solid #ccc3;
+  cursor: pointer;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
   &:active {
@@ -45,6 +46,7 @@ const AmountSpan = styled.span`
     content: ' шт.';
     font-size: 60%;
   }
+  
   `;
 
 const Center = styled.div`
