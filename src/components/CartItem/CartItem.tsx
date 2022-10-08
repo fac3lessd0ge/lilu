@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { ICartItem } from '../../redux/api/cart';
+import { ICartItem, useEditCartItemMutation } from '../../redux/api/cart';
 import { AmountMeter } from '../AmountMeter/AmountMeter';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue';
-import { useUpdateEffect } from '../../hooks/useUpdateEffect';
+import debounce from 'lodash.debounce';
 
 const StyledCartItemWrapper = styled.div`
   padding: 3px;
@@ -54,42 +54,61 @@ const StyledAmountMeterWrapper = styled.div`
 `;
 
 const toCapitalizedLowerCase = (str: string, maxLen: number): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1, maxLen).toLowerCase()
-}
+  return str.charAt(0).toUpperCase() + str.slice(1, maxLen).toLowerCase();
+};
 
-export const CartItem : React.FC<ICartItem> = ({ amount, chosen_variant = 'лаймовый', price, title, id }) => {
-  const navigate = useNavigate()
-  
-  const [currentAmount, setCurrentAmount] = React.useState(amount);
-  const debouncedAmount = useDebouncedValue(currentAmount, 300)
+export const CartItem: React.FC<ICartItem> = ({ product, quantity }) => {
+  const navigate = useNavigate();
 
-  const logger = React.useCallback(() => {
-    console.log({
-      debouncedAmount,
-      method: 'set',
-      chosen_variant,
-      id
-    })
-  }, [debouncedAmount, chosen_variant, id])
+  console.log(product.name, quantity);
 
-  useUpdateEffect(logger, [debouncedAmount])
+  const { am, name, product_id } = product;
 
-  const prepareTitle = React.useCallback((str: string, maxLen: number): string => {
-    return toCapitalizedLowerCase(str, maxLen) + (str.length > maxLen ? '...' : '') 
-  }, [])
-  
+  const [editItem, status] = useEditCartItemMutation();
+  const [currentAmount, setCurrentAmount] = React.useState(quantity);
+  const debouncedAmount = useDebouncedValue(currentAmount, 300);
+
+  const clickHandler = debounce((number: number) => {
+    setCurrentAmount(number);
+    editItem({
+      product_id: product_id,
+      product_count: number,
+    });
+  }, 200);
+
+  // useUpdateEffect(() => {
+  //   if (
+  //     status.status !== 'pending' &&
+  //     status.originalArgs?.product_count !== debouncedAmount &&
+  //     quantity !== currentAmount
+  //   ) {
+  //     editItem({
+  //       product_id: product_id,
+  //       product_count: debouncedAmount,
+  //     });
+  //   }
+  // }, [debouncedAmount]);
+
+  const prepareTitle = (str: string, maxLen: number): string => {
+    return (
+      toCapitalizedLowerCase(str, maxLen) + (str.length > maxLen ? '...' : '')
+    );
+  };
+
   return (
     <StyledCartItemWrapper>
-      <StyledItemTitle onClick={() => navigate(`/item/${id}`)}>{prepareTitle(title, 40)}</StyledItemTitle> 
-      
+      <StyledItemTitle onClick={() => navigate(`/item/${product_id}`)}>
+        {prepareTitle(name, 40)}
+      </StyledItemTitle>
+
       <StyledAmountMeterWrapper>
-        <AmountMeter 
-          fontSize='20px'
-          initValue={amount} 
-          onChange={setCurrentAmount}
+        <AmountMeter
+          max={am}
+          fontSize="20px"
+          initValue={currentAmount}
+          onChange={clickHandler}
         />
       </StyledAmountMeterWrapper>
-    
     </StyledCartItemWrapper>
-  )
-}
+  );
+};

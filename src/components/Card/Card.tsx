@@ -4,17 +4,17 @@ import styled from 'styled-components';
 import { useDelayedNavigation } from '../../hooks/useDelayedNavigation';
 
 interface ICard {
-  children?: React.ReactNode,
-  animation: any,
-  title: string,
-  id: number,
-  price?: number,
-  href: string,
-  imgUrl?: string
+  children?: React.ReactNode;
+  animation: any;
+  title: string;
+  id: number;
+  price?: number;
+  href: string;
+  imgUrl?: string;
 }
 
 export const StyledCard = styled.div`
-  background-color: #EDE1ED;
+  background-color: #ede1ed;
   min-height: 200px;
   display: flex;
   flex-direction: column;
@@ -47,7 +47,7 @@ const StyledCardTitle = styled.h3`
 `;
 
 const StyledCardPrice = styled.h2`
-  background-color: #CCB5D6;
+  background-color: #ccb5d6;
   text-align: center;
   margin: 0 5px 8px 5px;
   border-radius: 5px;
@@ -58,30 +58,35 @@ const StyledCardPrice = styled.h2`
   }
 `;
 
-export const Card: React.FC<ICard> = ({ children, animation, title, id, price, href, imgUrl}) => {
+export const Card: React.FC<ICard> = ({
+  children,
+  animation = {},
+  title,
+  id,
+  price,
+  href,
+  imgUrl,
+}) => {
   const navigate = useDelayedNavigation(0);
 
   return (
-    <StyledCard
-      onClick={() => navigate(href)}
-    >
-      {animation && <Lottie
-				animationData={animation}
-				play
-        loop
-				style={{ width: '100%', maxHeight: 150, height: 150 }}
-			/>}
+    <StyledCard onClick={() => navigate(href)}>
+      {JSON.stringify(animation) !== '{}' && (
+        <Lottie
+          animationData={animation}
+          play
+          loop
+          style={{ width: '100%', maxHeight: 150, height: 150 }}
+        />
+      )}
 
-      {imgUrl && <StyledCardImage 
-        src={imgUrl}
-      />}
-      
-      <StyledCardTitle>{title.length > 35 ? title.slice(0, 34) + '...' : title}</StyledCardTitle>
-      
-      {price && <StyledCardPrice>
-        {price}
-      </StyledCardPrice>}
-      
+      {imgUrl && <StyledCardImage src={imgUrl} />}
+
+      <StyledCardTitle>
+        {title.length > 35 ? title.slice(0, 34) + '...' : title}
+      </StyledCardTitle>
+
+      {price && <StyledCardPrice>{price}</StyledCardPrice>}
     </StyledCard>
-  )
-}
+  );
+};

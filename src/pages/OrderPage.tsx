@@ -2,9 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Block } from '../components/Block/Block';
 import { DeliveryForms } from '../components/Forms/DeliveryForms';
+import { usePostOrderMutation } from '../redux/api/cart';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectOrderInfo } from '../redux/selectors';
-import { setPickupLocation, setShippingVariant } from '../redux/slices/orderInfoSlice';
+import {
+  setPickupLocation,
+  setShippingVariant,
+} from '../redux/slices/orderInfoSlice';
 import { PageWrapper } from './CartPage';
 import { BuyButton } from './ItemPage';
 
@@ -59,19 +63,22 @@ const SubmitButton = styled(BuyButton)`
   width: 100%;
   background-color: var(--footerColor);
   margin-top: 15px;
-  
 
   &:disabled {
     transform: scale(0.7);
     background-color: #ccc;
   }
-  
+
   &:disabled:active {
     transform: none;
   }
 `;
 
-const OrderVariants = ['Самовывоз из магазина', 'Почта России', 'ЕМС Почта России']
+const OrderVariants = [
+  'Самовывоз из магазина',
+  'Почта России',
+  'ЕМС Почта России',
+];
 const AddressesVariants = [
   'м. Юго-Западная, ул. Покрышкина, д. 3.',
   'м. Дубровка, ТК Дубровка, ул. Шарикоподшипниковская, д.13.',
@@ -79,94 +86,102 @@ const AddressesVariants = [
   'м. Новокосино, ТРЦ «Реутов Парк», Носовихинское шоссе, д. 45.',
   'м. Теплый Стан, ТРЦ «Принц Плаза», ул. Профсоюзная, д. 129А.',
   'г. Санкт-Петербург, м. Чернышевская, Манежный пер, д. 19.',
-]
+];
 
 export const OrderPage: React.FC = () => {
-  const { 
+  const {
     shippingVariant,
     email,
     name,
     telephone,
     address,
     pickupLocation,
-    formIsValid
+    formIsValid,
   } = useAppSelector(selectOrderInfo);
   const dispatch = useAppDispatch();
 
+  const [postShipment, { data }] = usePostOrderMutation();
+
   const isButtonDisabled = (): boolean => {
     if (shippingVariant === 'Самовывоз из магазина') {
-      console.log(!(formIsValid && !!pickupLocation))
+      console.log(!(formIsValid && !!pickupLocation));
       return !(formIsValid && !!pickupLocation);
     }
-    
-    return !formIsValid
-  }
+
+    return !formIsValid;
+  };
 
   const submitHandler = () => {
     if (shippingVariant === 'Самовывоз из магазина') {
-      console.log({
-        telephone,
-        email,
-        shippingVariant,
-        pickupLocation
-      })
-      return
+      postShipment({
+        bill_info: {
+          user_info: 409093991,
+        },
+        user_info: {
+          user_id: 409093991,
+        },
+      });
     }
 
-    console.log({
-      telephone,
-      email,
-      name,
-      address,
-      shippingVariant
-    })
-  }
-
+    postShipment({
+      bill_info: {
+        user_info: 409093991,
+      },
+      user_info: {
+        user_id: 409093991,
+      },
+    });
+  };
 
   return (
-		<PageWrapper>
-			<Block>
-				<StyledOrderPageTitle>Оформление заказа</StyledOrderPageTitle>
-				<DeliveryFormsWrapper>
-					<h3>Контактная информация</h3>
-					<DeliveryForms
-						variant={
-							shippingVariant === 'Самовывоз из магазина'
-								? 'pickup'
-								: 'post'
-						}
-					/>
-				</DeliveryFormsWrapper>
-				<StyledOrderPageVariantsWrapper>
-					<h3>Способ доставки: </h3>
-					{OrderVariants.map((elem) => (
-						<StyledOrderVariant
-							key={elem}
-							onClick={(e) => {dispatch(setShippingVariant(elem)); dispatch(setPickupLocation(''))}}
-							disabled={shippingVariant === elem}
-						>
-							{elem}
-						</StyledOrderVariant>
-					))}
-				</StyledOrderPageVariantsWrapper>
+    <PageWrapper>
+      <Block>
+        <StyledOrderPageTitle>Оформление заказа</StyledOrderPageTitle>
+        <DeliveryFormsWrapper>
+          <h3>Контактная информация</h3>
+          <DeliveryForms
+            variant={
+              shippingVariant === 'Самовывоз из магазина' ? 'pickup' : 'post'
+            }
+          />
+        </DeliveryFormsWrapper>
+        <StyledOrderPageVariantsWrapper>
+          <h3>Способ доставки: </h3>
+          {OrderVariants.map((elem) => (
+            <StyledOrderVariant
+              key={elem}
+              onClick={(e) => {
+                dispatch(setShippingVariant(elem));
+                dispatch(setPickupLocation(''));
+              }}
+              disabled={shippingVariant === elem}
+            >
+              {elem}
+            </StyledOrderVariant>
+          ))}
+        </StyledOrderPageVariantsWrapper>
 
-				{shippingVariant === 'Самовывоз из магазина' ? (
-					<StyledOrderPageVariantsWrapper>
-						<h3>Точки самовывоза:</h3>
-						{AddressesVariants.map((elem) => (
-							<StyledPickupAddressVariant
-								key={elem}
-								onClick={(e) => {dispatch(setPickupLocation(elem))}}
-								disabled={pickupLocation === elem}
-							>
-								{elem}
-							</StyledPickupAddressVariant>
-						))}
-					</StyledOrderPageVariantsWrapper>
-				) : null}
+        {shippingVariant === 'Самовывоз из магазина' ? (
+          <StyledOrderPageVariantsWrapper>
+            <h3>Точки самовывоза:</h3>
+            {AddressesVariants.map((elem) => (
+              <StyledPickupAddressVariant
+                key={elem}
+                onClick={(e) => {
+                  dispatch(setPickupLocation(elem));
+                }}
+                disabled={pickupLocation === elem}
+              >
+                {elem}
+              </StyledPickupAddressVariant>
+            ))}
+          </StyledOrderPageVariantsWrapper>
+        ) : null}
 
-        <SubmitButton onClick={submitHandler} disabled={isButtonDisabled()}>Продолжить</SubmitButton>
-			</Block>
-		</PageWrapper>
+        <SubmitButton onClick={submitHandler} disabled={isButtonDisabled()}>
+          Продолжить
+        </SubmitButton>
+      </Block>
+    </PageWrapper>
   );
-}
+};

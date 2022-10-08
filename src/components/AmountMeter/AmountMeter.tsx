@@ -4,8 +4,8 @@ import { TiPlus, TiMinus } from 'react-icons/ti';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 
 interface IAmountMeterWrapper {
-  height: string,
-  fontSize: string 
+  height: string;
+  fontSize: string;
 }
 
 const AmountWrapper = styled.div<IAmountMeterWrapper>`
@@ -46,8 +46,7 @@ const AmountSpan = styled.span`
     content: ' шт.';
     font-size: 60%;
   }
-  
-  `;
+`;
 
 const Center = styled.div`
   display: flex;
@@ -57,40 +56,49 @@ const Center = styled.div`
 `;
 
 interface IAmountMeter {
-  onChange: React.Dispatch<React.SetStateAction<number>> | Function,
+  onChange: React.Dispatch<React.SetStateAction<number>> | Function;
   height?: string;
-  initValue?: number,
-  fontSize?: string
-} 
+  initValue?: number;
+  fontSize?: string;
+  max: number;
+}
 
-export const AmountMeter : React.FC<IAmountMeter> = ({ onChange, height = '40px', initValue = 0, fontSize = '26px' }) => {
-  const [value, setValue] = React.useState(initValue); 
+export const AmountMeter: React.FC<IAmountMeter> = ({
+  onChange,
+  height = '40px',
+  initValue = 0,
+  fontSize = '26px',
+  max = 0,
+}) => {
+  const [value, setValue] = React.useState(initValue);
 
   const plusClickHandler = () => {
-    setValue(() => value + 1)
-  }
+    if (value + 1 <= max) {
+      setValue(() => value + 1);
+    }
+  };
 
   const minusClickHandler = () => {
     if (value >= 1) {
       setValue(() => value - 1);
     }
-  }
+  };
 
-  useUpdateEffect(() => {
+  React.useEffect(() => {
     onChange(value);
-  }, [value])
+  }, [value]);
 
   return (
-		<AmountWrapper fontSize={fontSize} height={height}>
-			<AmountButton onClick={minusClickHandler}>
-				<TiMinus size={22} />
-			</AmountButton>
-			<Center>
-				<AmountSpan>{value}</AmountSpan>
-			</Center>
-			<AmountButton onClick={plusClickHandler}>
-				<TiPlus size={24} />
-			</AmountButton>
-		</AmountWrapper>
+    <AmountWrapper fontSize={fontSize} height={height}>
+      <AmountButton onClick={minusClickHandler}>
+        <TiMinus size={22} />
+      </AmountButton>
+      <Center>
+        <AmountSpan>{value}</AmountSpan>
+      </Center>
+      <AmountButton onClick={plusClickHandler}>
+        <TiPlus size={24} />
+      </AmountButton>
+    </AmountWrapper>
   );
-}
+};

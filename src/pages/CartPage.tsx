@@ -33,22 +33,26 @@ const CartItemsBlock = styled(StyledBlock)`
   border-radius: 5px;
 `;
 
-export const CartPage : React.FC = () => {
-  const { data, isLoading } = useGetCartItemsQuery('1');
+export const CartPage: React.FC = () => {
+  const { data, isLoading } = useGetCartItemsQuery();
 
   const isCartEmpty = (data: CartItemsResponse | undefined): boolean => {
-    return !data?.items?.length
-  }
- 
-  return (
-		<PageWrapper>
-			{!isLoading && !isCartEmpty(data) && 
-        <CartItemsBlock>
-          {data?.items?.map((elem, id) => <CartItem {...elem} key={id}/>)}
-        </CartItemsBlock>
-      }
+    return !data?.basket_cells?.length;
+  };
 
-      {isCartEmpty(data) && 
+  return (
+    <PageWrapper>
+      {!isLoading && !isCartEmpty(data) && (
+        <CartItemsBlock>
+          {data?.basket_cells?.map((elem, id) => {
+            console.log(elem);
+
+            return <CartItem {...elem} key={id} />;
+          })}
+        </CartItemsBlock>
+      )}
+
+      {isCartEmpty(data) && (
         <Center>
           <EmptyWrapper>
             <Lottie
@@ -60,7 +64,7 @@ export const CartPage : React.FC = () => {
             <h2>Ваша корзина пуста :(</h2>
           </EmptyWrapper>
         </Center>
-      }
-		</PageWrapper>
+      )}
+    </PageWrapper>
   );
-}
+};

@@ -1,22 +1,26 @@
 import { api } from "./api"; 
+import { Category } from "./category";
 
 export interface Item {
-  id: number,
-  title: string,
-  image: string,
-  price: number,
+  category: Category
+  product_type_id: number
+  product_name: string
+  image: string
+  price: number
+  vendor_code: string
   description?: string
 }
 
 interface ItemsResponse {
-  id: number,
-  items: Item[]
+  status: number,
+  data: Item[]
 }
 
 const itemsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getItems: builder.query<ItemsResponse, string>({
-      query: (id) => `items/${id}`,
+      query: (id) => `category/${id}`,
+      
     }),
   }),
   overrideExisting: false

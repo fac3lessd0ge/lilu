@@ -46,25 +46,25 @@ const ItemCount = styled.div`
 export const Footer : React.FC = () => {
   const location = useLocation();
   const navigate = useDelayedNavigation(100);
-  const { data } = useGetCartItemsQuery('1');
+  const { data } = useGetCartItemsQuery();
 
   const allAmounts = React.useCallback((): number => {
     if (!data) return 0;
 
-    return data?.items?.reduce((prev, cur) =>  prev + cur.amount, 0)
+    return data?.basket_cells?.reduce((prev, cur) =>  prev + cur.quantity, 0)
   }, [data])
 
   const calculateTotalPrice = React.useCallback((): number => {
-    if (!data) return 0;
+    if (!data || !data.total_price) return 0;
 
-    return data?.items?.reduce((prev, cur) =>  prev + cur.amount * cur.price, 0)
+    return data?.total_price
   }, [data])
 
 
   switch (location.pathname) {
     case '/cart':
       return (
-        <StyledFooter visible={!!data?.items?.length} onClick={() => navigate('/order')}>
+        <StyledFooter visible={!!data?.basket_cells?.length} onClick={() => navigate('/order')}>
           Оформить заказ на {calculateTotalPrice()} руб.
         </StyledFooter>
       )

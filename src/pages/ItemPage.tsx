@@ -7,6 +7,7 @@ import { useGetItemQuery } from '../redux/api/item';
 import { AmountMeter } from '../components/AmountMeter/AmountMeter';
 import { toast } from 'react-toastify';
 import 'react-slideshow-image/dist/styles.css';
+import { useAddCartItemMutation } from '../redux/api/cart';
 
 const ItemPageFlexBox = styled.div`
   width: 100%;
@@ -28,10 +29,10 @@ const ItemsPrice = styled.h3`
   margin: 0;
   font-size: 26px;
   &::after {
-    content: ' руб.'
+    content: ' руб.';
   }
   &::before {
-    content: 'Цена: '
+    content: 'Цена: ';
   }
 `;
 
@@ -70,50 +71,64 @@ export const BuyButton = styled.button`
 export const ItemPage: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetItemQuery(id || '');
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState(1);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [addItem, result] = useAddCartItemMutation();
 
-  const BuyButtonRef = React.useRef<HTMLButtonElement>(null)
+  const BuyButtonRef = React.useRef<HTMLButtonElement>(null);
 
-  
   const notify = () => toast(`В корзину добавлено ${amount} шт. товара`);
 
   const buyHandler = () => {
-    console.log({
-      method: 'add',
-      amount,
-      product_id: id,
-      selectedIndex
-    })
+    if (data)
+      addItem({
+        product_id: data[selectedIndex].product_id,
+        product_count: amount,
+      });
     notify();
 
     if (BuyButtonRef.current) {
       BuyButtonRef.current.disabled = true;
 
       setTimeout(() => {
-        BuyButtonRef.current!.disabled = false
-      }, 2700)
+        BuyButtonRef.current!.disabled = false;
+      }, 2700);
     }
+  };
 
-  }
+  React.useEffect(() => {
+    console.log(data);
+  });
 
   return (
     <ItemPageFlexBox>
-      {!isLoading && <>
-        <ImageSlider images={data?.images[selectedIndex].urls}/>
-        <ItemTitle>{data?.title}</ItemTitle>
-        <DropDownWrapper>
-          <DropDownList 
-            onSelect={setSelectedIndex} 
-            variants={ data?.images.map((elem) => elem.name) || [''] }
-            additionalThumbnailString={' товара'}
+      {!isLoading && data && (
+        <>
+          <ImageSlider images={data[selectedIndex]?.image} />
+          <ItemTitle>{data[selectedIndex]?.name}</ItemTitle>
+          <DropDownWrapper>
+            <DropDownList
+              onSelect={setSelectedIndex}
+              variants={data?.map((elem) => elem.name) || ['']}
+              additionalThumbnailString={' товара'}
+            />
+            <ItemsPrice>{data[selectedIndex]?.price}</ItemsPrice>
+          </DropDownWrapper>
+          <AmountMeter
+            initValue={amount}
+            max={data[selectedIndex]?.am || 0}
+            onChange={setAmount}
           />
-          <ItemsPrice>{data?.price}</ItemsPrice>
-        </DropDownWrapper>
-        <AmountMeter onChange={setAmount}/>
-        <BuyButton ref={BuyButtonRef} onClick={buyHandler}>Добавить в корзину</BuyButton>
-        {data?.description}
-      </>}
+          <BuyButton
+            disabled={amount === 0}
+            ref={BuyButtonRef}
+            onClick={buyHandler}
+          >
+            Добавить в корзину
+          </BuyButton>
+          {data[selectedIndex]?.desc}
+        </>
+      )}
     </ItemPageFlexBox>
-  )
-}
+  );
+};

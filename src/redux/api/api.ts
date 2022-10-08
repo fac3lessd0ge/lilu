@@ -5,19 +5,20 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
     // By default, if we have a token in the store, let's use that for authenticated requests
-    const token = (getState() as RootState).userSlice._auth
-    if (token) {
-      headers.set('Authentication', `Bearer ${token}`)
-    }
-    return headers
-  },
-})
+    const { _auth, hash, tgid } = (getState() as RootState).userSlice;
+    headers.set('initdata', `${_auth}`);
+    headers.set('hash', `${hash}`);
+    headers.set('tgid', `${tgid || 409093991}`);
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 })
+    return headers;
+  },
+});
+
+const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 });
 
 export const api = createApi({
   reducerPath: 'baseapi',
   baseQuery: baseQueryWithRetry,
   endpoints: () => ({}),
-  tagTypes: ["Cart"]
-})
+  tagTypes: ['Cart'],
+});

@@ -2,23 +2,24 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { Card } from '../components/Card/Card';
 import { CardsGrid } from '../components/CardsGrid/CardsGrid';
-import { useGetItemsQuery } from '../redux/api/items';
+import { Item, useGetItemsQuery } from '../redux/api/items';
 
 export const ItemsPage : React.FC = () => {
   const { id } = useParams();
+  
   const { data, isLoading } = useGetItemsQuery(id || '');
   
   return (
     <>
       <CardsGrid>
-        {!isLoading && data?.items?.map((elem: any) => (
+        {!isLoading && data?.data?.map((elem: Item) => (
           <Card
-            id={elem.id}
-            title={elem.title}
-            animation={elem?.animation}
+            id={elem.product_type_id}
+            key={elem.product_type_id}
+            title={elem.product_name}
+            animation={{}}
             imgUrl={elem.image}
-            key={elem.id}
-            href={`/item/${elem.id}`}
+            href={`/item/${elem.product_type_id}`}
             price={elem.price}
           />
         ))}

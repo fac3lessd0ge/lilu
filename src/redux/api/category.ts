@@ -1,7 +1,7 @@
 import { api } from "./api";
 
-interface Category {
-  id: number,
+export interface Category {
+  category_id: number,
   title: string,
   animation: object
 }
@@ -9,7 +9,8 @@ interface Category {
 const categoryApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query<Category[], void>({
-      query: () => `categories`,
+      query: () => `category`,
+      transformResponse: (response: {status: number, data: Category[]}) => response.data
     }),
   }),
   overrideExisting: false
