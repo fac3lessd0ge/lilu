@@ -31,5 +31,5 @@ export const SkeletonCard: React.FC = () => {
     <StyledSkeletonCard>
       <Shimmer />
     </StyledSkeletonCard>
-  )
-}
+  );
+};

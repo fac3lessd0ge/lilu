@@ -1,10 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Header } from './Header/Header';
 import { Footer } from './Footer/Footer';
-
-
 
 const MainContentWrapper = styled.div`
   min-height: calc(100vh - 110px);
@@ -13,8 +11,6 @@ const MainContentWrapper = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
 `;
-
-
 
 export const MainLayout: React.FC = () => {
   return (
@@ -25,5 +21,5 @@ export const MainLayout: React.FC = () => {
       </MainContentWrapper>
       <Footer />
     </>
-  )
+  );
 };
