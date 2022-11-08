@@ -58,7 +58,7 @@ export const CartPage: React.FC = () => {
             <Lottie
               animationData={EmptyAnimation}
               play
-              loop
+              loop={false}
               style={{ width: '100%' }}
             />
             <h2>Ваша корзина пуста :(</h2>
