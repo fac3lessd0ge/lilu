@@ -60,13 +60,10 @@ const toCapitalizedLowerCase = (str: string, maxLen: number): string => {
 export const CartItem: React.FC<ICartItem> = ({ product, quantity }) => {
   const navigate = useNavigate();
 
-  console.log(product.name, quantity);
-
-  const { am, name, product_id } = product;
+  const { am, name, product_id, product_type_id } = product;
 
   const [editItem, status] = useEditCartItemMutation();
   const [currentAmount, setCurrentAmount] = React.useState(quantity);
-  const debouncedAmount = useDebouncedValue(currentAmount, 300);
 
   const clickHandler = debounce((number: number) => {
     setCurrentAmount(number);
@@ -76,19 +73,6 @@ export const CartItem: React.FC<ICartItem> = ({ product, quantity }) => {
     });
   }, 200);
 
-  // useUpdateEffect(() => {
-  //   if (
-  //     status.status !== 'pending' &&
-  //     status.originalArgs?.product_count !== debouncedAmount &&
-  //     quantity !== currentAmount
-  //   ) {
-  //     editItem({
-  //       product_id: product_id,
-  //       product_count: debouncedAmount,
-  //     });
-  //   }
-  // }, [debouncedAmount]);
-
   const prepareTitle = (str: string, maxLen: number): string => {
     return (
       toCapitalizedLowerCase(str, maxLen) + (str.length > maxLen ? '...' : '')
@@ -97,7 +81,9 @@ export const CartItem: React.FC<ICartItem> = ({ product, quantity }) => {
 
   return (
     <StyledCartItemWrapper>
-      <StyledItemTitle onClick={() => navigate(`/item/${product_id}`)}>
+      <StyledItemTitle
+        onClick={() => navigate(`/item/${product_type_id}/${product_id}`)}
+      >
         {prepareTitle(name, 40)}
       </StyledItemTitle>
 

@@ -14,9 +14,9 @@ const StyledNavButton = styled.button`
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  background-color: #EEE297;
+  background-color: #ffec99;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid #ccc3;
+  border: 1px solid #ccccccad;
   border-radius: 5px;
   padding: 4px 5px;
   transition: all 0.03s linear;
@@ -37,14 +37,14 @@ export const NavButton: React.FC<NavButtonProps> = ({ type, children }) => {
     if (type === 'back') {
       return navigate();
     }
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   return (
     <StyledNavButton onClick={clickHandler}>
-      {type === 'back' && <IoIosArrowBack size={18}/>}
-      {type === 'menu' && <GrCatalog size={18}/>}
+      {type === 'back' && <IoIosArrowBack size={18} />}
+      {type === 'menu' && <GrCatalog size={18} />}
       {children}
     </StyledNavButton>
-  )
-}
+  );
+};

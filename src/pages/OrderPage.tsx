@@ -1,8 +1,10 @@
+import { openConfirmModal } from '@mantine/modals';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Block } from '../components/Block/Block';
 import { DeliveryForms } from '../components/Forms/DeliveryForms';
 import { usePostOrderMutation } from '../redux/api/cart';
+import { useGetShippingInfoQuery } from '../redux/api/shipping';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectOrderInfo } from '../redux/selectors';
 import {
@@ -52,6 +54,9 @@ const StyledOrderVariant = styled.button`
 
 const StyledPickupAddressVariant = styled(StyledOrderVariant)`
   font-size: 13px;
+  padding: 15px;
+  height: auto;
+  line-height: 1.5;
   justify-content: center;
 `;
 
@@ -74,37 +79,37 @@ const SubmitButton = styled(BuyButton)`
   }
 `;
 
-const OrderVariants = [
-  'Самовывоз из магазина',
-  'Почта России',
-  'ЕМС Почта России',
-];
-const AddressesVariants = [
-  'м. Юго-Западная, ул. Покрышкина, д. 3.',
-  'м. Дубровка, ТК Дубровка, ул. Шарикоподшипниковская, д.13.',
-  'м. Жулебино, г. Люберцы, ул.Кирова д.2.',
-  'м. Новокосино, ТРЦ «Реутов Парк», Носовихинское шоссе, д. 45.',
-  'м. Теплый Стан, ТРЦ «Принц Плаза», ул. Профсоюзная, д. 129А.',
-  'г. Санкт-Петербург, м. Чернышевская, Манежный пер, д. 19.',
-];
+const OrderRequestBody: React.FC = () => {
+  const { email, telephone, address, name, pickupLocation, shippingVariant } =
+    useAppSelector((store) => store.orderInfoSlice);
+
+  return (
+    <code>
+      {JSON.stringify({
+        email,
+        telephone,
+        address,
+        name,
+        pickupLocation,
+        shippingVariant,
+      })}
+    </code>
+  );
+};
 
 export const OrderPage: React.FC = () => {
-  const {
-    shippingVariant,
-    email,
-    name,
-    telephone,
-    address,
-    pickupLocation,
-    formIsValid,
-  } = useAppSelector(selectOrderInfo);
+  const { shippingVariant, pickupLocation, formIsValid } =
+    useAppSelector(selectOrderInfo);
   const dispatch = useAppDispatch();
 
   const [postShipment, { data }] = usePostOrderMutation();
 
+  const shipping = useGetShippingInfoQuery();
+
+  console.log(shipping.data);
+
   const isButtonDisabled = (): boolean => {
     if (shippingVariant === 'Самовывоз из магазина') {
-      console.log(!(formIsValid && !!pickupLocation));
       return !(formIsValid && !!pickupLocation);
     }
 
@@ -112,24 +117,24 @@ export const OrderPage: React.FC = () => {
   };
 
   const submitHandler = () => {
-    if (shippingVariant === 'Самовывоз из магазина') {
-      postShipment({
-        bill_info: {
-          user_info: 409093991,
-        },
-        user_info: {
-          user_id: 409093991,
-        },
-      });
-    }
+    // postShipment({
+    //   bill_info: {
+    //     user_info: 409093991,
+    //   },
+    //   user_info: {
+    //     user_id: 409093991,
+    //   },
+    // });
+    console.log('asd');
 
-    postShipment({
-      bill_info: {
-        user_info: 409093991,
-      },
-      user_info: {
-        user_id: 409093991,
-      },
+    openConfirmModal({
+      title: 'Ошибка!',
+      centered: true,
+      children: <OrderRequestBody />,
+      labels: { confirm: 'Delete account', cancel: "No don't delete it" },
+      confirmProps: { color: 'red' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => console.log('Confirmed'),
     });
   };
 
@@ -140,41 +145,43 @@ export const OrderPage: React.FC = () => {
         <DeliveryFormsWrapper>
           <h3>Контактная информация</h3>
           <DeliveryForms
-            variant={
-              shippingVariant === 'Самовывоз из магазина' ? 'pickup' : 'post'
-            }
+            variant={shippingVariant === 'Самовывоз' ? 'pickup' : 'post'}
           />
         </DeliveryFormsWrapper>
         <StyledOrderPageVariantsWrapper>
           <h3>Способ доставки: </h3>
-          {OrderVariants.map((elem) => (
+          {shipping?.data?.shipping_methods.map(({ title }) => (
             <StyledOrderVariant
-              key={elem}
+              key={title}
               onClick={(e) => {
-                dispatch(setShippingVariant(elem));
+                dispatch(setShippingVariant(title));
                 dispatch(setPickupLocation(''));
               }}
-              disabled={shippingVariant === elem}
+              disabled={shippingVariant === title}
             >
-              {elem}
+              {title}
             </StyledOrderVariant>
           ))}
         </StyledOrderPageVariantsWrapper>
 
-        {shippingVariant === 'Самовывоз из магазина' ? (
+        {shippingVariant === 'Самовывоз' ? (
           <StyledOrderPageVariantsWrapper>
             <h3>Точки самовывоза:</h3>
-            {AddressesVariants.map((elem) => (
-              <StyledPickupAddressVariant
-                key={elem}
-                onClick={(e) => {
-                  dispatch(setPickupLocation(elem));
-                }}
-                disabled={pickupLocation === elem}
-              >
-                {elem}
-              </StyledPickupAddressVariant>
-            ))}
+            {shipping?.data?.pick_points.map(
+              ({ point_adress, point_city, point_id }) => (
+                <StyledPickupAddressVariant
+                  key={point_id}
+                  onClick={(e) => {
+                    dispatch(
+                      setPickupLocation(`${point_city} ${point_adress}`)
+                    );
+                  }}
+                  disabled={pickupLocation === `${point_city} ${point_adress}`}
+                >
+                  {`${point_city} ${point_adress}`}
+                </StyledPickupAddressVariant>
+              )
+            )}
           </StyledOrderPageVariantsWrapper>
         ) : null}
 

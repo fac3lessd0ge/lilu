@@ -16,7 +16,7 @@ const StyledImageDiv = styled.img`
 const SliderContainer = styled.div`
   width: 100%;
   max-width: 600px;
-  max-height: 300px;
+  max-height: 350px;
   height: auto;
   border-radius: 5px;
   margin: 0 auto;

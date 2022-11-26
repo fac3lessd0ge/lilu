@@ -16,15 +16,6 @@ export const PostVariant = () => {
   const { email, telephone, address, name } = useAppSelector(selectOrderInfo);
   const dispatch = useAppDispatch();
 
-  // useDebouncedEffect(() => {
-  //   console.log({
-  //     email,
-  //     telephone,
-  //     address,
-  //     name
-  //   })
-  // }, [email, telephone, address, name], 1000)
-
   const { 
           register,
           setValue,

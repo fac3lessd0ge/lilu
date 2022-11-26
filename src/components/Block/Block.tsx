@@ -2,10 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface IBlock {
-  children?: React.ReactNode,
-  bgcolor?: string,
-  minh?: string,
-  maxh?: string,
+  children?: React.ReactNode;
+  bgcolor?: string;
+  minh?: string;
+  maxh?: string;
 }
 
 export const StyledBlock = styled.div<IBlock>`
@@ -15,18 +15,15 @@ export const StyledBlock = styled.div<IBlock>`
   max-height: ${({ maxh }) => maxh || 'auto'};
   padding: 5px;
   border-radius: 5px;
+  border: 1px solid #e9ecef;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: ${({ bgcolor }) => bgcolor || '#eee'};
+  background-color: ${({ bgcolor }) => bgcolor || '#F8F9FA'};
 `;
 
 export const Block: React.FC<IBlock> = ({ children, bgcolor, minh, maxh }) => {
   return (
-    <StyledBlock
-      bgcolor={bgcolor}
-      minh={minh}
-      maxh={maxh}
-    >
+    <StyledBlock bgcolor={bgcolor} minh={minh} maxh={maxh}>
       {children}
     </StyledBlock>
-  )
-}
+  );
+};

@@ -5,6 +5,7 @@ export interface ICartItem {
   basket_cell_id: number;
   product: {
     product_id: number;
+    product_type_id: number;
     name: string;
     desc: string;
     price: number;

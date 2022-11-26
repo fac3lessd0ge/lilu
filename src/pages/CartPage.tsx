@@ -45,8 +45,6 @@ export const CartPage: React.FC = () => {
       {!isLoading && !isCartEmpty(data) && (
         <CartItemsBlock>
           {data?.basket_cells?.map((elem, id) => {
-            console.log(elem);
-
             return <CartItem {...elem} key={id} />;
           })}
         </CartItemsBlock>

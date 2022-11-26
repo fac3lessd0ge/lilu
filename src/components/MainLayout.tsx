@@ -10,6 +10,10 @@ const MainContentWrapper = styled.div`
   padding: 10px 15px;
   text-overflow: ellipsis;
   overflow: hidden;
+
+  @media screen and (min-width: 800px) {
+    padding: 10px 25vw;
+  }
 `;
 
 export const MainLayout: React.FC = () => {
