@@ -17,7 +17,7 @@ export const CategoriesPage: React.FC = () => {
             <Card
               id={elem.category_id}
               title={elem.title}
-              animation={elem.animation}
+              imgUrl={elem.img}
               key={elem.category_id}
               href={`/category/${elem.category_id}`}
             />

@@ -2,11 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Slide } from 'react-slideshow-image';
 import { GrFormPreviousLink, GrFormNextLink } from 'react-icons/gr';
-import 'react-slideshow-image/dist/styles.css'
+import 'react-slideshow-image/dist/styles.css';
 
 const StyledImageDiv = styled.img`
-  height: 500px;
-  max-height: 300px;
+  height: 350px;
   width: 100%;
   max-width: 600px;
   background-repeat: no-repeat;
@@ -17,13 +16,13 @@ const StyledImageDiv = styled.img`
 const SliderContainer = styled.div`
   width: 100%;
   max-width: 600px;
-  max-height: 300px;
+  max-height: 350px;
   height: auto;
   border-radius: 5px;
   margin: 0 auto;
 `;
 
-const StyledArrowButton = styled.button<{right?: boolean, left?: boolean}>`
+const StyledArrowButton = styled.button<{ right?: boolean; left?: boolean }>`
   width: 30px;
   height: 30px;
   padding: 0;
@@ -35,33 +34,42 @@ const StyledArrowButton = styled.button<{right?: boolean, left?: boolean}>`
   position: absolute;
   z-index: 10;
   cursor: pointer;
-  ${({right}) => right ? 'right: 8px !important' : ''}
-  ${({left}) => left ? 'left: 8px !important' : ''}
+  ${({ right }) => (right ? 'right: 8px !important' : '')}
+  ${({ left }) => (left ? 'left: 8px !important' : '')}
 `;
 
 interface ISliderList {
-  images?: string[]
+  images?: string[];
 }
 
-export const ImageSlider : React.FC<ISliderList> = ({ images }) => {
-
+export const ImageSlider: React.FC<ISliderList> = ({ images }) => {
   const SliderRef = React.useRef<any>(null);
 
   React.useEffect(() => {
-    SliderRef.current?.goTo(0)
-  }, [images])
+    SliderRef.current?.goTo(0);
+  }, [images]);
 
   return (
     <SliderContainer>
       <Slide
         ref={SliderRef}
         defaultIndex={0}
-        prevArrow={<StyledArrowButton left> <GrFormPreviousLink size={25} /> </StyledArrowButton>}
-        nextArrow={<StyledArrowButton right> <GrFormNextLink size={25}/> </StyledArrowButton>}
+        prevArrow={
+          <StyledArrowButton left>
+            {' '}
+            <GrFormPreviousLink size={25} />{' '}
+          </StyledArrowButton>
+        }
+        nextArrow={
+          <StyledArrowButton right>
+            {' '}
+            <GrFormNextLink size={25} />{' '}
+          </StyledArrowButton>
+        }
         autoplay={false}
         canSwipe={false}
         duration={100}
-        easing='ease-in'
+        easing="ease-in"
         transitionDuration={300}
       >
         {images?.map((slideImage, index) => (
@@ -72,4 +80,4 @@ export const ImageSlider : React.FC<ISliderList> = ({ images }) => {
       </Slide>
     </SliderContainer>
   );
-}
+};

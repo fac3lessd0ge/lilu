@@ -69,8 +69,18 @@ export const BuyButton = styled.button`
 `;
 
 export const ItemPage: React.FC = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetItemQuery(id || '');
+  const { id = '', type_id } = useParams<{
+    id: string;
+    type_id: string | undefined;
+  }>();
+  const RequestParams = React.useMemo(
+    () => ({
+      id: id,
+      type_id: type_id ?? null,
+    }),
+    [id, type_id]
+  );
+  const { data, isLoading } = useGetItemQuery(RequestParams);
   const [amount, setAmount] = React.useState(1);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [addItem, result] = useAddCartItemMutation();
@@ -96,16 +106,12 @@ export const ItemPage: React.FC = () => {
     }
   };
 
-  React.useEffect(() => {
-    console.log(data);
-  });
-
   return (
     <ItemPageFlexBox>
       {!isLoading && data && (
         <>
           <ImageSlider images={data[selectedIndex]?.image} />
-          <ItemTitle>{data[selectedIndex]?.name}</ItemTitle>
+          <ItemTitle>{data[selectedIndex]?.product_name}</ItemTitle>
           <DropDownWrapper>
             <DropDownList
               onSelect={setSelectedIndex}

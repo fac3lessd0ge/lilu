@@ -1,11 +1,9 @@
 import * as React from 'react';
-import Lottie from 'react-lottie-player';
 import styled from 'styled-components';
 import { useDelayedNavigation } from '../../hooks/useDelayedNavigation';
 
 interface ICard {
   children?: React.ReactNode;
-  animation: any;
   title: string;
   id: number;
   price?: number;
@@ -29,7 +27,7 @@ export const StyledCard = styled.div`
 `;
 
 const StyledCardImage = styled.img`
-  max-height: 140px;
+  max-height: 180px;
   width: 100%;
   padding: 5px;
   border-radius: 10px;
@@ -60,7 +58,6 @@ const StyledCardPrice = styled.h2`
 
 export const Card: React.FC<ICard> = ({
   children,
-  animation = {},
   title,
   id,
   price,
@@ -71,15 +68,6 @@ export const Card: React.FC<ICard> = ({
 
   return (
     <StyledCard onClick={() => navigate(href)}>
-      {JSON.stringify(animation) !== '{}' && (
-        <Lottie
-          animationData={animation}
-          play
-          loop
-          style={{ width: '100%', maxHeight: 150, height: 150 }}
-        />
-      )}
-
       {imgUrl && <StyledCardImage src={imgUrl} />}
 
       <StyledCardTitle>
