@@ -41,7 +41,6 @@ export interface IPostOrder {
     city?: string;
     address_1?: string;
     post_code?: number;
-    total_price?: number;
   };
 }
 

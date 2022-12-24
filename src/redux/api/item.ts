@@ -29,11 +29,11 @@ const itemApi = api.injectEndpoints({
         return queryString;
       },
       transformResponse: (res: {
-        data: [{ product_name: string; type: ItemType[] }];
+        data: { product_name: string; type: ItemType[] };
       }) => {
-        const data = res.data[0].type.map((elem: ItemType) => ({
+        const data = res.data.type.map((elem: ItemType) => ({
           ...elem,
-          product_name: res.data[0].product_name,
+          product_name: res.data.product_name,
         }));
 
         return data;

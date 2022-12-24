@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IOrderState {
-  shippingVariant: string
-  telephone: string 
-  email:     string,
-  formIsValid: boolean,
+  shippingVariant: string;
+  telephone: string;
+  email: string;
+  formIsValid: boolean;
 
-  name?:     string,
-  address?:  string,
+  name?: string;
+  address?: string;
 
-  pickupLocation?: string
+  pickupLocation?: string;
+
+  postCode?: string;
 }
 
 const initialState: IOrderState = {
@@ -19,45 +21,50 @@ const initialState: IOrderState = {
   address: '',
   shippingVariant: 'Самовывоз из магазина',
   formIsValid: false,
-  pickupLocation: ''
-}
+  pickupLocation: '',
+  postCode: '',
+};
 
 export const OrderInfoSlice = createSlice({
   name: 'orderInfo',
   initialState,
   reducers: {
-    setTelephone (state, action: PayloadAction<string>) {
-      state.telephone = action.payload
+    setTelephone(state, action: PayloadAction<string>) {
+      state.telephone = action.payload;
     },
-    setEmail (state, action: PayloadAction<string>) {
-      state.email = action.payload
+    setEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
     },
-    setName (state, action: PayloadAction<string>) {
-      state.name = action.payload
+    setName(state, action: PayloadAction<string>) {
+      state.name = action.payload;
     },
-    setAddress (state, action: PayloadAction<string>) {
-      state.address = action.payload
+    setAddress(state, action: PayloadAction<string>) {
+      state.address = action.payload;
     },
-    setShippingVariant (state, action: PayloadAction<string>) {
-      state.shippingVariant = action.payload
+    setShippingVariant(state, action: PayloadAction<string>) {
+      state.shippingVariant = action.payload;
     },
-    setFormIsValid (state, action: PayloadAction<boolean>) {
-      state.formIsValid = action.payload
+    setFormIsValid(state, action: PayloadAction<boolean>) {
+      state.formIsValid = action.payload;
     },
-    setPickupLocation (state, action: PayloadAction<string>) {
-      state.pickupLocation = action.payload
-    }
-  }
-})
+    setPickupLocation(state, action: PayloadAction<string>) {
+      state.pickupLocation = action.payload;
+    },
+    setPostCode(state, action: PayloadAction<string>) {
+      state.postCode = action.payload;
+    },
+  },
+});
 
-export const { 
-  setTelephone, 
-  setEmail, 
-  setName, 
-  setAddress, 
-  setShippingVariant, 
+export const {
+  setTelephone,
+  setEmail,
+  setName,
+  setAddress,
+  setShippingVariant,
   setFormIsValid,
-  setPickupLocation
-} = OrderInfoSlice.actions
+  setPickupLocation,
+  setPostCode,
+} = OrderInfoSlice.actions;
 
-export default OrderInfoSlice.reducer
+export default OrderInfoSlice.reducer;

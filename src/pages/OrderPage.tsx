@@ -79,19 +79,44 @@ const SubmitButton = styled(BuyButton)`
   }
 `;
 
-const OrderRequestBody: React.FC = () => {
-  const { email, telephone, address, name, pickupLocation, shippingVariant } =
-    useAppSelector((store) => store.orderInfoSlice);
+export const OrderRequestBody: React.FC = () => {
+  const {
+    email,
+    telephone,
+    address,
+    name,
+    pickupLocation,
+    shippingVariant,
+    postCode,
+  } = useAppSelector((store) => store.orderInfoSlice);
+
+  const { username, tgid } = useAppSelector((store) => store.userSlice);
+
+  const isPickup = shippingVariant === 'Самовывоз из магазина';
 
   return (
     <code>
       {JSON.stringify({
-        email,
-        telephone,
-        address,
-        name,
-        pickupLocation,
-        shippingVariant,
+        user_info: {
+          user_id: tgid,
+          phone_number: telephone,
+          mail: email,
+          first_name: name?.split(' ')[0] || 'Не заполнено',
+          last_name: name?.split(' ')[1] || 'Не заполнено',
+          username,
+          device_type: 'phone',
+        },
+        bill_info: {
+          user_info: tgid,
+          need_shipment: !isPickup,
+          deliveryType: isPickup ? '' : '',
+          state: 'Россия',
+          city: isPickup
+            ? pickupLocation?.split(' ')[0] || 'Broken city'
+            : (address && address?.split(' ')[0]) || 'Broken city',
+          address_1: isPickup ? pickupLocation : address,
+          post_code: isPickup ? '000000' : postCode,
+        },
       })}
     </code>
   );
@@ -101,8 +126,6 @@ export const OrderPage: React.FC = () => {
   const { shippingVariant, pickupLocation, formIsValid } =
     useAppSelector(selectOrderInfo);
   const dispatch = useAppDispatch();
-
-  const [postShipment, { data }] = usePostOrderMutation();
 
   const shipping = useGetShippingInfoQuery();
 
@@ -117,16 +140,6 @@ export const OrderPage: React.FC = () => {
   };
 
   const submitHandler = () => {
-    // postShipment({
-    //   bill_info: {
-    //     user_info: 409093991,
-    //   },
-    //   user_info: {
-    //     user_id: 409093991,
-    //   },
-    // });
-    console.log('asd');
-
     openConfirmModal({
       title: 'Ошибка!',
       centered: true,
@@ -145,17 +158,19 @@ export const OrderPage: React.FC = () => {
         <DeliveryFormsWrapper>
           <h3>Контактная информация</h3>
           <DeliveryForms
-            variant={shippingVariant === 'Самовывоз' ? 'pickup' : 'post'}
+            variant={
+              shippingVariant === 'Самовывоз из магазина' ? 'pickup' : 'post'
+            }
           />
         </DeliveryFormsWrapper>
         <StyledOrderPageVariantsWrapper>
           <h3>Способ доставки: </h3>
-          {shipping?.data?.shipping_methods.map(({ title }) => (
+          {shipping?.data?.shipping_methods.map(({ title, id }) => (
             <StyledOrderVariant
               key={title}
               onClick={(e) => {
                 dispatch(setShippingVariant(title));
-                dispatch(setPickupLocation(''));
+                dispatch(setPickupLocation(id));
               }}
               disabled={shippingVariant === title}
             >
@@ -164,7 +179,7 @@ export const OrderPage: React.FC = () => {
           ))}
         </StyledOrderPageVariantsWrapper>
 
-        {shippingVariant === 'Самовывоз' ? (
+        {shippingVariant === 'Самовывоз из магазина' ? (
           <StyledOrderPageVariantsWrapper>
             <h3>Точки самовывоза:</h3>
             {shipping?.data?.pick_points.map(
