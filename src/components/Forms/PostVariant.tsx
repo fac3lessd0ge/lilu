@@ -40,8 +40,6 @@ export const PostVariant = () => {
     },
   });
 
-  console.log(errors);
-
   React.useEffect(() => {
     if (!data) return;
     setSuggestionsList(data?.map((elem: any, id: number) => elem.value));

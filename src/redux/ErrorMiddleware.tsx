@@ -1,6 +1,5 @@
 import { openConfirmModal } from '@mantine/modals';
 import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
-import { OrderRequestBody } from '../pages/OrderPage';
 import { api } from './api/api';
 
 const isCartActionFulfilled = (action: any) =>
@@ -21,7 +20,7 @@ export const ErrorMiddleware: Middleware =
         openConfirmModal({
           title: 'Ошибка!',
           centered: true,
-          children: <OrderRequestBody />,
+          children: 'Дениска-пиписка',
           labels: { confirm: 'Delete account', cancel: "No don't delete it" },
           confirmProps: { color: 'red' },
           onCancel: () => console.log('Cancel'),

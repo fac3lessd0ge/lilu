@@ -19,7 +19,7 @@ const initialState: IOrderState = {
   email: '',
   name: '',
   address: '',
-  shippingVariant: 'Самовывоз из магазина',
+  shippingVariant: 'Самовывоз',
   formIsValid: false,
   pickupLocation: '',
   postCode: '',

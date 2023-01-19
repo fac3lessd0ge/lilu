@@ -40,7 +40,7 @@ export interface IPostOrder {
     state?: string;
     city?: string;
     address_1?: string;
-    post_code?: number;
+    post_code?: number | string;
   };
 }
 

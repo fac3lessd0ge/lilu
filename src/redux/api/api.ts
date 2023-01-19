@@ -14,11 +14,9 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 });
-
 export const api = createApi({
   reducerPath: 'baseapi',
-  baseQuery: baseQueryWithRetry,
+  baseQuery: baseQuery,
   endpoints: () => ({}),
   tagTypes: ['Cart'],
 });
