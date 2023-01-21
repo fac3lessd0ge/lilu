@@ -7,6 +7,7 @@ import { usePostOrderMutation } from '../redux/api/cart';
 import { useGetShippingInfoQuery } from '../redux/api/shipping';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
+  setAddress,
   setPickupLocation,
   setShippingVariant,
 } from '../redux/slices/orderInfoSlice';
@@ -130,7 +131,7 @@ export const OrderPage: React.FC = () => {
         city: isPickup
           ? pickupLocation?.split(' ')[0] || 'Broken city'
           : (address && address?.split(' ')[0]) || 'Broken city',
-        address_1: isPickup ? pickupLocation : address,
+        address_1: address,
         post_code: isPickup ? '000000' : postCode,
       },
     })
@@ -174,11 +175,9 @@ export const OrderPage: React.FC = () => {
                 <StyledPickupAddressVariant
                   key={point_id}
                   onClick={(e) => {
-                    dispatch(
-                      setPickupLocation(`${point_city} ${point_adress}`)
-                    );
+                    dispatch(setAddress(`${point_city} ${point_adress}`));
                   }}
-                  disabled={pickupLocation === `${point_city} ${point_adress}`}
+                  disabled={address === `${point_city} ${point_adress}`}
                 >
                   {`${point_city} ${point_adress}`}
                 </StyledPickupAddressVariant>
