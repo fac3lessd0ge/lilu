@@ -10,6 +10,7 @@ const MainContentWrapper = styled.div`
   padding: 10px 15px;
   text-overflow: ellipsis;
   overflow: hidden;
+  background-color: white;
 
   @media screen and (min-width: 800px) {
     padding: 10px 25vw;

@@ -98,8 +98,6 @@ export const OrderPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
-
   const shipping = useGetShippingInfoQuery();
 
   const [sendOrderRequest] = usePostOrderMutation();
