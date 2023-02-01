@@ -18,10 +18,10 @@ const StyledNavButton = styled.button`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccccccad;
   border-radius: 5px;
-  padding: 4px 5px;
+  padding: 6px 9px;
   transition: all 0.03s linear;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
 
   &:active {

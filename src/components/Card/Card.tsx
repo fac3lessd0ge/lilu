@@ -15,6 +15,7 @@ export const StyledCard = styled.div`
   background-color: #ede1ed;
   min-height: 200px;
   display: flex;
+  padding: 6px;
   flex-direction: column;
   justify-content: space-between;
   min-width: 120px;
@@ -27,9 +28,8 @@ export const StyledCard = styled.div`
 `;
 
 const StyledCardImage = styled.img`
-  max-height: 180px;
   width: 100%;
-  padding: 5px;
+  aspect-ratio: 1 / 1;
   border-radius: 10px;
   max-width: 200px;
   height: auto;
@@ -37,17 +37,21 @@ const StyledCardImage = styled.img`
 
 const StyledCardTitle = styled.h3`
   width: 100%;
+  display: grid;
   text-align: center;
+  place-items: center;
+  word-break: break-word;
+  min-height: 60px;
   margin-top: 0;
   font-size: 16px;
-  margin-bottom: 10px;
+  height: 100%;
+  line-height: 24px;
   padding: 0px 5px;
 `;
 
 const StyledCardPrice = styled.h2`
   background-color: #ccb5d6;
   text-align: center;
-  margin: 0 5px 8px 5px;
   border-radius: 5px;
 
   &::after {
@@ -71,7 +75,7 @@ export const Card: React.FC<ICard> = ({
       {imgUrl && <StyledCardImage src={imgUrl} />}
 
       <StyledCardTitle>
-        {title.length > 35 ? title.slice(0, 34) + '...' : title}
+        {title.length > 40 ? title.slice(0, 39) + '...' : title}
       </StyledCardTitle>
 
       {price && <StyledCardPrice>{price}</StyledCardPrice>}

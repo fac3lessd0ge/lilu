@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { TiPlus, TiMinus } from 'react-icons/ti';
-import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 
 interface IAmountMeterWrapper {
   height: string;

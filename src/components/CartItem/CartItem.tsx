@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ICartItem, useEditCartItemMutation } from '../../redux/api/cart';
 import { AmountMeter } from '../AmountMeter/AmountMeter';
-import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import debounce from 'lodash.debounce';
 
 const StyledCartItemWrapper = styled.div`
@@ -11,8 +10,8 @@ const StyledCartItemWrapper = styled.div`
   font-weight: 500;
   display: flex;
   align-items: center;
+  min-height: 60px;
   gap: 5px;
-  height: 60px;
   background-color: #fff;
   border-radius: 5px;
   position: relative;
@@ -24,7 +23,6 @@ const StyledItemTitle = styled.p`
   display: flex;
   align-items: center;
   word-break: break-word;
-  height: 60px;
   overflow: hidden;
   margin: 0;
 
@@ -40,10 +38,6 @@ const StyledItemTitle = styled.p`
   @media screen and (max-width: 360px) {
     font-size: 14px;
   }
-`;
-
-const StyledVariantTitle = styled.p`
-  font-size: 14px;
 `;
 
 const StyledAmountMeterWrapper = styled.div`

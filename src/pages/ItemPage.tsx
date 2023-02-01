@@ -89,6 +89,8 @@ export const ItemPage: React.FC = () => {
 
   const notify = () => toast(`В корзину добавлено ${amount} шт. товара`);
 
+  console.log(data);
+
   const buyHandler = () => {
     if (data)
       addItem({
@@ -106,6 +108,8 @@ export const ItemPage: React.FC = () => {
     }
   };
 
+  const isAvaliable = data && !!data[selectedIndex].am;
+
   return (
     <ItemPageFlexBox>
       {!isLoading && data && (
@@ -120,18 +124,24 @@ export const ItemPage: React.FC = () => {
             />
             <ItemsPrice>{data[selectedIndex]?.price}</ItemsPrice>
           </DropDownWrapper>
-          <AmountMeter
-            initValue={amount}
-            max={data[selectedIndex]?.am || 0}
-            onChange={setAmount}
-          />
-          <BuyButton
-            disabled={amount === 0}
-            ref={BuyButtonRef}
-            onClick={buyHandler}
-          >
-            Добавить в корзину
-          </BuyButton>
+          {isAvaliable ? (
+            <>
+              <AmountMeter
+                initValue={amount}
+                max={data[selectedIndex]?.am || 0}
+                onChange={setAmount}
+              />
+              <BuyButton
+                disabled={amount === 0}
+                ref={BuyButtonRef}
+                onClick={buyHandler}
+              >
+                Добавить в корзину
+              </BuyButton>
+            </>
+          ) : (
+            <ItemTitle> К сожалению, товар закончился </ItemTitle>
+          )}
           {data[selectedIndex]?.desc}
         </>
       )}
