@@ -16,8 +16,9 @@ const StyledFooter = styled.footer<FooterProps>`
   color: white;
   text-align: center;
   display: flex;
+  line-height: 1;
   justify-content: center;
-  gap: 3px;
+  gap: 5px;
   align-items: center;
   
   visibility: ${({ visible }) => visible ? 'visible' : 'hidden'};
@@ -34,9 +35,10 @@ const ItemCount = styled.div`
   display: grid;
   place-content: center;
   border-radius: 50%;
-  padding: 3px;
+  line-height: 1;
+  box-sizing: border-box;
   aspect-ratio: 1 / 1;
-  min-height: 20px; 
+  height: 20px; 
   font-size: 12px;
   color: black;
   font-weight: 500;

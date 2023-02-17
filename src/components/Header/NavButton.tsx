@@ -19,6 +19,7 @@ const StyledNavButton = styled.button`
   border: 1px solid #ccccccad;
   border-radius: 5px;
   padding: 6px 9px;
+  color: #000;
   transition: all 0.03s linear;
   outline: none;
   font-size: 16px;

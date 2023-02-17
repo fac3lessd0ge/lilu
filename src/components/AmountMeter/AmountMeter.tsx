@@ -25,6 +25,7 @@ const AmountButton = styled.button`
   border: none;
   border-radius: 5px;
   background-color: #fff;
+  color: #000;
   font-weight: 700;
   font-size: 26px;
   transition: all 0.05s ease;

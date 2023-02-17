@@ -37,6 +37,7 @@ const StyledOrderVariant = styled.button`
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #ccc3;
+  color: #000;
   display: flex;
   gap: 12px;
   align-items: center;

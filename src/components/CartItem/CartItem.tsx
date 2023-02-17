@@ -8,8 +8,10 @@ import debounce from 'lodash.debounce';
 const StyledCartItemWrapper = styled.div`
   padding: 3px;
   font-weight: 500;
-  display: flex;
+  display: grid;
+  grid-template-columns: 40% 60%;
   align-items: center;
+  width: 100%;
   min-height: 60px;
   gap: 5px;
   background-color: #fff;
@@ -18,7 +20,6 @@ const StyledCartItemWrapper = styled.div`
 `;
 
 const StyledItemTitle = styled.p`
-  max-width: calc(100% - 170px);
   line-height: 18px;
   display: flex;
   align-items: center;
@@ -41,10 +42,7 @@ const StyledItemTitle = styled.p`
 `;
 
 const StyledAmountMeterWrapper = styled.div`
-  max-width: 30%;
   min-width: 150px;
-  position: absolute;
-  right: 15px;
 `;
 
 const toCapitalizedLowerCase = (str: string, maxLen: number): string => {

@@ -34,8 +34,6 @@ const StyledArrowButton = styled.button<{ right?: boolean; left?: boolean }>`
   position: absolute;
   z-index: 10;
   cursor: pointer;
-  ${({ right }) => (right ? 'right: 8px !important' : '')}
-  ${({ left }) => (left ? 'left: 8px !important' : '')}
 `;
 
 interface ISliderList {
