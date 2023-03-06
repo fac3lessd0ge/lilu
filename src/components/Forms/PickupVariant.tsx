@@ -17,7 +17,7 @@ export const PickupVariant = () => {
       isValid
     } 
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       email,
       telephone

@@ -8,8 +8,6 @@ interface IdeliveryForms {
 
 
 export const DeliveryForms: React.FC<IdeliveryForms> = ({ variant }) => {
-  
-  
   if (variant === 'pickup') return <PickupVariant />
 
   return (

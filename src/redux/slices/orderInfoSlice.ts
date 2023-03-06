@@ -21,7 +21,7 @@ const initialState: IOrderState = {
   address: '',
   shippingVariant: 'Самовывоз',
   formIsValid: false,
-  pickupLocation: '',
+  pickupLocation: 'local_pickup',
   postCode: '',
 };
 

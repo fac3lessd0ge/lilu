@@ -89,8 +89,6 @@ export const ItemPage: React.FC = () => {
 
   const notify = () => toast(`В корзину добавлено ${amount} шт. товара`);
 
-  console.log(data);
-
   const buyHandler = () => {
     if (data)
       addItem({

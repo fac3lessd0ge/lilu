@@ -1,4 +1,3 @@
-import { openConfirmModal } from '@mantine/modals';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Block } from '../components/Block/Block';
@@ -13,7 +12,6 @@ import {
 } from '../redux/slices/orderInfoSlice';
 import { PageWrapper } from './CartPage';
 import { BuyButton } from './ItemPage';
-import { useNavigate } from 'react-router-dom';
 
 const StyledOrderPageTitle = styled.h2`
   margin: 0;
@@ -103,13 +101,13 @@ export const OrderPage: React.FC = () => {
 
   const [sendOrderRequest] = usePostOrderMutation();
 
-  const isButtonDisabled = (): boolean => {
+  const isButtonDisabled = ((): boolean => {
     if (shippingVariant === 'Самовывоз') {
-      return !(formIsValid && !!pickupLocation);
+      return !(formIsValid && !!pickupLocation && !!address);
     }
 
     return !formIsValid;
-  };
+  })();
 
   const submitHandler = () => {
     sendOrderRequest({
@@ -157,6 +155,7 @@ export const OrderPage: React.FC = () => {
               key={title}
               onClick={(e) => {
                 dispatch(setShippingVariant(title));
+                dispatch(setAddress(''));
                 dispatch(setPickupLocation(id));
               }}
               disabled={shippingVariant === title}
@@ -185,7 +184,7 @@ export const OrderPage: React.FC = () => {
           </StyledOrderPageVariantsWrapper>
         ) : null}
 
-        <SubmitButton onClick={submitHandler} disabled={isButtonDisabled()}>
+        <SubmitButton onClick={submitHandler} disabled={isButtonDisabled}>
           Продолжить
         </SubmitButton>
       </Block>

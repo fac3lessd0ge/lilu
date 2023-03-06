@@ -73,7 +73,7 @@ export const Footer : React.FC = () => {
     
     case '/order':
       return (
-        <StyledFooter visible={false} onClick={console.log} />
+        <StyledFooter visible={false}  />
       )
     default:
       return (
