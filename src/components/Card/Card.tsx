@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDelayedNavigation } from '../../hooks/useDelayedNavigation';
 
 interface ICard {
-  children?: React.ReactNode;
   title: string;
   id: number;
   price?: number;
@@ -12,12 +11,12 @@ interface ICard {
 }
 
 export const StyledCard = styled.div`
-  background-color: #ede1ed;
   min-height: 200px;
   display: flex;
   padding: 6px;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid #ccb5d6;
   min-width: 120px;
   max-width: 200px;
   height: 100%;
@@ -35,7 +34,7 @@ const StyledCardImage = styled.img`
   height: auto;
 `;
 
-const StyledCardTitle = styled.h3`
+const StyledCardTitle = styled.p`
   width: 100%;
   display: grid;
   text-align: center;
@@ -49,10 +48,12 @@ const StyledCardTitle = styled.h3`
   padding: 0px 5px;
 `;
 
-const StyledCardPrice = styled.h2`
-  background-color: #ccb5d6;
+const StyledCardPrice = styled.p`
+  background-color: transparent;
   text-align: center;
   border-radius: 5px;
+  font-size: 20px;
+  padding: 1px;
 
   &::after {
     content: ' руб.';
@@ -61,7 +62,6 @@ const StyledCardPrice = styled.h2`
 `;
 
 export const Card: React.FC<ICard> = ({
-  children,
   title,
   id,
   price,
@@ -78,7 +78,7 @@ export const Card: React.FC<ICard> = ({
         {title.length > 40 ? title.slice(0, 39) + '...' : title}
       </StyledCardTitle>
 
-      {price && <StyledCardPrice>{price}</StyledCardPrice>}
+      {price && <StyledCardPrice>{price.toString().split('.')[0]}</StyledCardPrice>}
     </StyledCard>
   );
 };

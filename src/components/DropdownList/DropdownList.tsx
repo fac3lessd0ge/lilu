@@ -32,6 +32,7 @@ const ChosenText = styled.span`
   background-color: #eee;
   border-radius: 10px;
   padding: 2px 10px;
+  line-height: 2;
   border: 2px solid white;
   transition: border 0.1s ease-in;
 

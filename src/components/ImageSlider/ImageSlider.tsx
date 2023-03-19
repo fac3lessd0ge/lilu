@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Slide } from 'react-slideshow-image';
 import { GrFormPreviousLink, GrFormNextLink } from 'react-icons/gr';
 import 'react-slideshow-image/dist/styles.css';
+import { IconWrapper } from "../Header/NavButton";
 
 const StyledImageDiv = styled.img`
   height: 350px;
@@ -27,7 +28,7 @@ const StyledArrowButton = styled.button<{ right?: boolean; left?: boolean }>`
   height: 30px;
   padding: 0;
   border: none;
-  background-color: #e8dfab;
+  background-color: var(--buttonColor);
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -54,14 +55,16 @@ export const ImageSlider: React.FC<ISliderList> = ({ images }) => {
         defaultIndex={0}
         prevArrow={
           <StyledArrowButton left>
-            {' '}
-            <GrFormPreviousLink size={25} />{' '}
+            <IconWrapper>
+              <GrFormPreviousLink size={30} />
+            </IconWrapper>
           </StyledArrowButton>
         }
         nextArrow={
           <StyledArrowButton right>
-            {' '}
-            <GrFormNextLink size={25} />{' '}
+            <IconWrapper>
+              <GrFormNextLink size={30} />
+            </IconWrapper>
           </StyledArrowButton>
         }
         autoplay={false}

@@ -9,17 +9,27 @@ interface NavButtonProps {
   children: React.ReactNode;
 }
 
+
+export const IconWrapper = styled.div`
+  svg {
+    height: 100%;
+    path {
+      stroke: #fff;
+    }
+  }
+`
+
 const StyledNavButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  background-color: #ffec99;
+  background-color: #E64980;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccccccad;
   border-radius: 5px;
   padding: 6px 9px;
-  color: #000;
+  color: #fff;
   transition: all 0.03s linear;
   outline: none;
   font-size: 16px;
@@ -44,7 +54,7 @@ export const NavButton: React.FC<NavButtonProps> = ({ type, children }) => {
   return (
     <StyledNavButton onClick={clickHandler}>
       {type === 'back' && <IoIosArrowBack size={18} />}
-      {type === 'menu' && <GrCatalog size={18} />}
+      {type === 'menu' && <IconWrapper><GrCatalog size={18} /></IconWrapper>}
       {children}
     </StyledNavButton>
   );

@@ -16,9 +16,9 @@ const root = ReactDOM.createRoot(
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --headerColor: #FFEC99;
-    --footerColor: #7bc25e;
-    --buttonColor: #60be3b;
+    --headerColor: #F06595;
+    --footerColor: #C2255C;
+    --buttonColor: #F06595;
     --toastify-color-progress-light: var(--buttonColor);
     --toastify-toast-min-height: 50px;
   }

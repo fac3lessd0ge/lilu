@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { NavButton } from "./NavButton";
@@ -14,7 +15,7 @@ const StyledHeader = styled.header`
   z-index: 15;
 `;
 
-export const Header: React.FC = () => {
+export const Header: FC = () => {
   const location = useLocation();
 
   return (
