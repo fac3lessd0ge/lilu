@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/MainLayout';
 import { CartPage } from './pages/CartPage';
@@ -11,7 +11,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<CategoriesPage />} />
+        <Route index element={<CategoriesPage />} />
         <Route path="category/:id" element={<ItemsPage />} />
         <Route path="item/:id/" element={<ItemPage />} />
         <Route path="item/:id/:type_id" element={<ItemPage />} />

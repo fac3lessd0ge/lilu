@@ -6,9 +6,10 @@ import 'react-slideshow-image/dist/styles.css';
 import { IconWrapper } from "../Header/NavButton";
 
 const StyledImageDiv = styled.img`
-  height: 350px;
   width: 100%;
-  max-width: 600px;
+  max-width: 350px;
+  aspect-ratio: 1 / 1;
+  margin: auto;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 5px;
@@ -18,6 +19,7 @@ const SliderContainer = styled.div`
   width: 100%;
   max-width: 600px;
   max-height: 350px;
+  min-height: 350px;
   height: auto;
   border-radius: 5px;
   margin: 0 auto;
@@ -36,6 +38,11 @@ const StyledArrowButton = styled.button<{ right?: boolean; left?: boolean }>`
   z-index: 10;
   cursor: pointer;
 `;
+
+const EachSlide = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 interface ISliderList {
   images?: string[];
@@ -74,9 +81,9 @@ export const ImageSlider: React.FC<ISliderList> = ({ images }) => {
         transitionDuration={300}
       >
         {images?.map((slideImage, index) => (
-          <div className="each-slide" key={index}>
+          <EachSlide className="each-slide" key={index}>
             <StyledImageDiv src={slideImage} />
-          </div>
+          </EachSlide>
         ))}
       </Slide>
     </SliderContainer>

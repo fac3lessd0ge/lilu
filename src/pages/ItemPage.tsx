@@ -13,7 +13,7 @@ const ItemPageFlexBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
 `;
 
 const ItemTitle = styled.h2`
@@ -42,6 +42,11 @@ const DropDownWrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
+const ItemDescription = styled.p`
+  font-size: 18px;
+  line-height: 1.5;
+`
 
 export const BuyButton = styled.button`
   display: grid;
@@ -140,7 +145,9 @@ export const ItemPage: React.FC = () => {
           ) : (
             <ItemTitle> К сожалению, товар закончился </ItemTitle>
           )}
-          {data[selectedIndex]?.desc}
+          <ItemDescription>
+            {data[selectedIndex]?.desc}
+          </ItemDescription> 
         </>
       )}
     </ItemPageFlexBox>
