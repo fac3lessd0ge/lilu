@@ -79,6 +79,10 @@ const SubmitButton = styled(BuyButton)`
   }
 `;
 
+const ContactInfoTitle = styled.h3`
+  padding: 0px 5px 5px 5px;
+`
+
 export const OrderPage: React.FC = () => {
   const {
     email,
@@ -143,7 +147,7 @@ export const OrderPage: React.FC = () => {
       <Block>
         <StyledOrderPageTitle>Оформление заказа</StyledOrderPageTitle>
         <DeliveryFormsWrapper>
-          <h3>Контактная информация</h3>
+          <ContactInfoTitle>Контактная информация</ContactInfoTitle>
           <DeliveryForms
             variant={shippingVariant === 'Самовывоз' ? 'pickup' : 'post'}
           />

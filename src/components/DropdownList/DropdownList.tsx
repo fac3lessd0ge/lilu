@@ -53,7 +53,6 @@ const StyledListItem = styled.li`
 `;
 
 const ListContainer = styled.div`
-  padding: 10px 0px;
   position: relative;
   min-width: 230px;
 `;

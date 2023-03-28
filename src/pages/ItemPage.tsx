@@ -38,6 +38,7 @@ const ItemsPrice = styled.h3`
 
 const DropDownWrapper = styled.div`
   display: flex;
+  gap: 15px;
   padding: 0px 5px 5px 5px;
   align-items: center;
   flex-direction: column;

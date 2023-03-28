@@ -53,7 +53,7 @@ const StyledCardPrice = styled.p`
   text-align: center;
   border-radius: 5px;
   font-size: 20px;
-  padding: 1px;
+  padding: 1px 1px 6px 1px;
 
   &::after {
     content: ' руб.';

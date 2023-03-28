@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoIosArrowBack } from 'react-icons/io';
-import { GrCatalog } from 'react-icons/gr';
 import styled from 'styled-components';
 import { useDelayedNavigation } from '../../hooks/useDelayedNavigation';
 
@@ -24,7 +24,7 @@ const StyledNavButton = styled.button`
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  background-color: #E64980;
+  background-color: var(--footerColor);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccccccad;
   border-radius: 5px;
@@ -54,7 +54,7 @@ export const NavButton: React.FC<NavButtonProps> = ({ type, children }) => {
   return (
     <StyledNavButton onClick={clickHandler}>
       {type === 'back' && <IoIosArrowBack size={18} />}
-      {type === 'menu' && <IconWrapper><GrCatalog size={18} /></IconWrapper>}
+      {type === 'menu' && <IconWrapper><RxHamburgerMenu size={18} /></IconWrapper>}
       {children}
     </StyledNavButton>
   );
